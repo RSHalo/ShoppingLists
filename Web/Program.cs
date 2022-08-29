@@ -1,9 +1,13 @@
 using ShoppingList.Web.Helper;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorPages();
+IMvcBuilder mvcBuilder = builder.Services.AddRazorPages();
+if (builder.Environment.IsDevelopment())
+{
+    mvcBuilder.AddRazorRuntimeCompilation();
+}
+
 builder.Services.AddDataAccessRepositories();
 
 var app = builder.Build();

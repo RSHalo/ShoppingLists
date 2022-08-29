@@ -1,10 +1,32 @@
 ﻿@page
 @model ShoppingListsModel
 @{
-    <p>Shopping lists here</p>
-
-    @foreach (ShoppingList.Data.IListEntity list in Model.Lists)
+    if (Model.Lists.Any())
     {
-        <p>List Name: @list.Name</p>
+        <h2>All Shopping Lists</h2>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th></th> @* Actions in this column*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ShoppingList.Data.IListEntity list in Model.Lists)
+                {
+                    <tr>
+                        <td>@list.Name</td>
+                        <td>
+                            <a class="btn btn-primary">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>There are currently no shopping lists.</p>
     }
 }
