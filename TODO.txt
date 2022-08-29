@@ -1,0 +1,6 @@
+Non In-memory data access. Perhaps Azure Storage? SQlite?
+Remove jQuery
+Remove bootstrap
+	Checkout flexbox
+Resource strings
+

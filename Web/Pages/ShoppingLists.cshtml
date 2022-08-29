@@ -1,0 +1,10 @@
+﻿@page
+@model ShoppingListsModel
+@{
+    <p>Shopping lists here</p>
+
+    @foreach (ShoppingList.Data.IListEntity list in Model.Lists)
+    {
+        <p>List Name: @list.Name</p>
+    }
+}
