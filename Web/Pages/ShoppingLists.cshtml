@@ -13,12 +13,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (ShoppingList.Data.IListEntity list in Model.Lists)
+                @foreach (var list in Model.Lists) // TODO: Remove "var" usage when we have models for views, rather than entities.
                 {
                     <tr>
                         <td>@list.Name</td>
                         <td>
-                            <a class="btn btn-primary">Edit</a>
+                            <a class="btn btn-primary" asp-page="ShoppingList" asp-route-listName="@list.Name">Edit</a>
                         </td>
                     </tr>
                 }

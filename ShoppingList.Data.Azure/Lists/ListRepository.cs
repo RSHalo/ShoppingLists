@@ -1,4 +1,6 @@
-﻿namespace ShoppingList.Data.InMemory
+﻿using ShoppingList.Data.Lists;
+
+namespace ShoppingList.Data.InMemory.Lists
 {
     public class ListRepository : IListRepository
     {
@@ -10,7 +12,8 @@
             {
                 new ListEntity
                 {
-                    Name = "ALDI",
+                    ShopName = "ALDI",
+                    Name = "ALDI List",
                     Items = new List<IItemEntity>
                     {
                         new ItemEntity { Name = "apples", Order = 1 },
@@ -21,7 +24,8 @@
                 },
                 new ListEntity
                 {
-                    Name = "Sainsbury's",
+                    ShopName = "Sainsbury's",
+                    Name = "Berrys List",
                     Items = new List<IItemEntity>
                     {
                         new ItemEntity { Name = "sausages", Order = 1 },

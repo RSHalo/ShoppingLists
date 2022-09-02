@@ -1,5 +1,5 @@
-﻿using ShoppingList.Data;
-using ShoppingList.Data.InMemory;
+﻿using ShoppingList.Data.InMemory.Lists;
+using ShoppingList.Data.Lists;
 
 namespace ShoppingList.Web.Helper
 {

@@ -1,4 +1,4 @@
-Non In-memory data access. Perhaps Azure Storage? SQlite?
+Non In-memory data access. Perhaps Azure Storage? SQLite?
 Remove jQuery
 Remove bootstrap
 	Checkout flexbox

@@ -1,4 +1,21 @@
 ﻿@page
 @model ShoppingListModel
-@{
+
+<div class="d-flex justify-content-between">
+    <div>
+        <p>List name is @Model.List.Name</p>
+    </div>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerItemModal">
+        <i class="fa-solid fa-plus"></i> Add Item
+    </button>
+</div>
+
+<p>Items:</p>
+
+@foreach (var item in Model.List.Items)
+{
+    <p>@item.Name</p>
 }
+
+@* Register item modal *@
+<partial name="_RegisterItemModal" model="new RegisterItemModel { ShopName = Model.List.ShopName }" />

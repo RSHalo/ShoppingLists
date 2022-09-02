@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ShoppingList.Data;
+using ShoppingList.Data.Lists;
 
 namespace ShoppingList.Web.Pages
 {

@@ -1,4 +1,4 @@
-﻿namespace ShoppingList.Data
+﻿namespace ShoppingList.Data.Lists
 {
     public interface IListRepository
     {
