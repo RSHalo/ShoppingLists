@@ -9,5 +9,6 @@
         public static string Crisps = nameof(Crisps);
         public static string Sausages = nameof(Sausages);
         public static string QuornNuggets = nameof(QuornNuggets);
+        public static string Fish = nameof(Fish);
     }
 }

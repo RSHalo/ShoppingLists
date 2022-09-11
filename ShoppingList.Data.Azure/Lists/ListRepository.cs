@@ -47,7 +47,7 @@ namespace ShoppingList.Data.InMemory.Lists
         public Task<IListEntity> FindListAsync(string name)
         {
             ListEntity list = _lists.FirstOrDefault(list => list.Name == name);
-            list.Items = list.Items.Sort();
+            list.Items = list.Items.InShopOrder();
             return Task.FromResult(list as IListEntity);
         }
     }

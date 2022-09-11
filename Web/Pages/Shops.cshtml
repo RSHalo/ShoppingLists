@@ -1,0 +1,42 @@
+﻿@page
+@model ShoppingList.Web.Pages.ShopsModel
+@{
+    if (Model.ShopsWithProducts.Any())
+    {
+        <h2>All Shops</h2>
+
+        <p>Click a shop to view all of it's registered products.</p>
+
+        <div class="accordion accordion-flush" id="shopAccordion">
+
+            @foreach (var shopWithProducts in Model.ShopsWithProducts)
+            {
+                var shop = shopWithProducts.Key;
+                var products = shopWithProducts.Value;
+
+                string headerId = $"{shop.Name}-header";
+                string bodyId = $"{shop.Name}-products";
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="@headerId">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#@bodyId" aria-expanded="false" aria-controls="@bodyId">
+                            @shop.Name
+                        </button>
+                    </h2>
+                    <div id="@bodyId" class="accordion-collapse collapse mt-2" aria-labelledby="@headerId" data-bs-parent="#shopAccordion">
+                        <ul>
+                            @foreach (var product in products)
+                            {
+                                <li>@product.Name</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
+    else
+    {
+        <p>There are no shops registered.</p>
+    }
+}

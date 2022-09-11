@@ -1,23 +1,90 @@
-﻿using ShoppingList.Data.Shops;
+﻿using ShoppingList.Data.Helper;
+using ShoppingList.Data.Products;
+using ShoppingList.Data.Shops;
 
 namespace ShoppingList.Data.InMemory.Shops
 {
-    internal class ShopRepository : IShopRepository
+    public class ShopRepository : IShopRepository
     {
-        public Task<IList<IShopEntity>> AllShopsAsync()
+        private readonly IList<IShopEntity> _shops;
+        private readonly Dictionary<string, List<IProductEntity>> _productsByShop = new Dictionary<string, List<IProductEntity>>();
+
+        public ShopRepository()
         {
-            IList<IShopEntity> shops = new List<IShopEntity>
+            _shops = new List<IShopEntity>
             {
                 new ShopEntity { Name = ShopNames.ALDI },
                 new ShopEntity { Name = ShopNames.Sainsburys }
             };
 
-            return Task.FromResult(shops);
+            InitializeProducts();
+        }
+
+        public Task<IList<IShopEntity>> AllShopsAsync()
+        {
+            return Task.FromResult(_shops);
         }
 
         public Task<IList<IProductEntity>> AllProductsForShop(string shopName)
         {
-            throw new NotImplementedException();
+            if (_productsByShop.ContainsKey(shopName))
+            {
+                IList<IProductEntity> products = _productsByShop[shopName].InShopOrder();
+                return Task.FromResult(products);
+            }
+
+            throw new Exception("No shop.");
+        }
+
+        private void InitializeProducts()
+        {
+            List<IProductEntity> products = new List<IProductEntity>
+            {
+                new ProductEntity(ProductNames.Sausages)
+                { 
+                    IsFirst = true,
+                    Next = ProductNames.Bananas
+                },
+                new ProductEntity(ProductNames.Crisps)
+                { 
+                    Next = ProductNames.QuornNuggets
+                },
+                new ProductEntity(ProductNames.Onions)
+                { 
+                    Next = ProductNames.Crisps
+                },
+                new ProductEntity(ProductNames.QuornNuggets),
+                new ProductEntity(ProductNames.Bananas)
+                { 
+                    Next = ProductNames.Onions
+                }
+            };
+
+            _productsByShop.Add(ShopNames.Sainsburys, products);
+
+            products = new List<IProductEntity>
+            {
+                new ProductEntity(ProductNames.Bananas)
+                {
+                    Next = ProductNames.Yoghurt
+                },
+                new ProductEntity(ProductNames.Yoghurt)
+                {
+                    Next = ProductNames.Onions
+                },
+                new ProductEntity(ProductNames.Fish),
+                new ProductEntity(ProductNames.Apples)
+                {
+                    IsFirst = true,
+                    Next = ProductNames.Bananas
+                },
+                new ProductEntity(ProductNames.Onions)
+                {
+                    Next = ProductNames.Fish
+                }
+            };
+
+            _productsByShop.Add(ShopNames.ALDI, products);
         }
     }
 }

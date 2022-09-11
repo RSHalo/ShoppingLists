@@ -1,15 +1,15 @@
-﻿using ShoppingList.Data.Lists;
+﻿using ShoppingList.Data.Products;
 
 namespace ShoppingList.Data.Helper
 {
-    public static class ListHelper
+    public static class OrderHelper
     {
-        public static IList<IItemEntity> Sort(this IEnumerable<IItemEntity> unorderedItems)
+        public static IList<TItemEntity> InShopOrder<TItemEntity>(this IEnumerable<TItemEntity> unorderedItems) where TItemEntity : IProductEntity
         {
-            IItemEntity firstItem = null;
-            Dictionary<string, IItemEntity> itemsByName = new Dictionary<string, IItemEntity>();
+            TItemEntity firstItem = default(TItemEntity);
+            Dictionary<string, TItemEntity> itemsByName = new Dictionary<string, TItemEntity>();
 
-            foreach (IItemEntity item in unorderedItems)
+            foreach (TItemEntity item in unorderedItems)
             {
                 if (item.IsFirst)
                 {
@@ -24,7 +24,7 @@ namespace ShoppingList.Data.Helper
                 throw new Exception("No first item");
             }
 
-            List<IItemEntity> orderedItems = new List<IItemEntity>
+            List<TItemEntity> orderedItems = new List<TItemEntity>
             {
                 firstItem
             };
@@ -32,7 +32,7 @@ namespace ShoppingList.Data.Helper
             string nextName = firstItem.Next;
             while (nextName != null)
             {
-                IItemEntity nextItem = itemsByName[nextName];
+                TItemEntity nextItem = itemsByName[nextName];
                 orderedItems.Add(nextItem);
 
                 nextName = nextItem.Next;
