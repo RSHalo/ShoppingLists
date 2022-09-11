@@ -6,7 +6,9 @@ namespace ShoppingList.Data.InMemory.Lists
     {
         public string Name { get; set; }
 
-        public int Order { get; set; }
+        public string Next { get; set; }
+
+        public bool IsFirst { get; set; }
 
         public bool IsPicked { get; set; }
     }
