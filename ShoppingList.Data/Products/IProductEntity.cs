@@ -13,7 +13,7 @@
         /// <summary>
         /// The name of the next item.
         /// </summary>
-        string Next { get; }
+        string Next { get; set; }
 
         /// <summary>
         /// Whether the item is the first item.

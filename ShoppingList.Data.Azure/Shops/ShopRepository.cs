@@ -27,13 +27,26 @@ namespace ShoppingList.Data.InMemory.Shops
 
         public Task<IList<IProductEntity>> AllProductsForShop(string shopName)
         {
-            if (_productsByShop.ContainsKey(shopName))
+            if (_productsByShop.TryGetValue(shopName, out List<IProductEntity> products))
             {
-                IList<IProductEntity> products = _productsByShop[shopName].InShopOrder();
-                return Task.FromResult(products);
+                return Task.FromResult(products.InShopOrder());
             }
 
             throw new Exception("No shop.");
+        }
+
+        public Task<bool> RegisterProduct(string shopName, string newProductName, string nextProductName)
+        {
+            if (_productsByShop.ContainsKey(shopName) == false || newProductName == null)
+            {
+                return Task.FromResult(false);
+            }
+
+            List<IProductEntity> existingProducts = _productsByShop[shopName];
+            ProductEntity newProduct = CreateProductToRegister(newProductName, nextProductName, existingProducts);
+            _productsByShop[shopName].Add(newProduct);
+
+            return Task.FromResult(true);
         }
 
         private void InitializeProducts()
@@ -85,6 +98,55 @@ namespace ShoppingList.Data.InMemory.Shops
             };
 
             _productsByShop.Add(ShopNames.ALDI, products);
+        }
+
+        private ProductEntity CreateProductToRegister(string newProductName, string nextProductName, IList<IProductEntity> existingProducts)
+        {
+            if (nextProductName == null)
+            {
+                // The new product is the last item in the list. The current last item must point to the new item.
+                IProductEntity lastItem = existingProducts.Single(product => product.Next == null);
+                lastItem.Next = newProductName;
+
+                return new ProductEntity(newProductName);
+            }
+            else
+            {
+                bool isFirst = false;
+                // previousProduct needs to point to the new product.
+                ProductEntity previousProduct = null;
+                // The new product needs to point to nextProduct.
+                ProductEntity nextProduct = null;
+                
+
+                foreach (ProductEntity existingProduct in existingProducts)
+                {
+                    if (existingProduct.Name == nextProductName)
+                    {
+                        nextProduct = existingProduct;
+                    }
+                    else if (existingProduct.Next == nextProductName)
+                    {
+                        previousProduct = existingProduct;
+                    }
+                }
+
+                if (previousProduct != null)
+                {
+                    previousProduct.Next = newProductName;
+                }
+                else
+                {
+                    // Nothing currently points to nextProduct, which means that the new product is being inserted at the start.
+                    isFirst = true;
+                }
+
+                return new ProductEntity(newProductName)
+                {
+                    IsFirst = isFirst,
+                    Next = nextProduct.Name
+                };
+            }
         }
     }
 }
