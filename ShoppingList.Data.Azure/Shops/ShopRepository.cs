@@ -117,7 +117,6 @@ namespace ShoppingList.Data.InMemory.Shops
                 ProductEntity previousProduct = null;
                 // The new product needs to point to nextProduct.
                 ProductEntity nextProduct = null;
-                
 
                 foreach (ProductEntity existingProduct in existingProducts)
                 {

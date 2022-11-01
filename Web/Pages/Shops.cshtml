@@ -16,6 +16,8 @@
 
                 string headerId = $"{shop.Name}-header";
                 string bodyId = $"{shop.Name}-products";
+                string registerItemModalId = $"{shop.Name}-registerItemModal";
+
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="@headerId">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#@bodyId" aria-expanded="false" aria-controls="@bodyId">
@@ -24,8 +26,8 @@
                     </h2>
                     <div id="@bodyId" class="accordion-collapse collapse mt-2" aria-labelledby="@headerId" data-bs-parent="#shopAccordion">
 
-                        <button class="btn btn-primary btn-sm mb-2">
-                            <i class="fa-solid fa-plus"></i> Add Product
+                        <button class="btn btn-primary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#@registerItemModalId">
+                            <i class="fa-solid fa-plus"></i> Register Product
                         </button>
 
                         <ul>
@@ -36,6 +38,9 @@
                         </ul>
                     </div>
                 </div>
+
+                @* Register item modal *@
+                <partial name="_RegisterItemModal" model="new RegisterItemModel { ShopName = shop.Name, ModalId = registerItemModalId }" />
             }
 
         </div>
