@@ -1,8 +1,8 @@
 ﻿namespace ShoppingList.Web.Models
 {
-    public class RegisterItemModel
+    public class RegisterProductModel
     {
-        public const string DefaultModalId = "registerItemModal";
+        public const string DefaultModalId = "registerProductModal";
 
         public string ModalId { get; set; } = DefaultModalId;
 
@@ -15,7 +15,5 @@
         public string NewProductName { get; set; }
 
         public string NextProductName { get; set; }
-
-        public bool IsFirst { get; set; }
     }
 }
