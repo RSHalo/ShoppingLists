@@ -1,4 +1,5 @@
-﻿ready(function () {
+﻿// Shows and hides content based on checkbox states.
+ready(function () {
     const containers = document.querySelectorAll(".toggle-checkbox-container");
 
     containers.forEach((container) => {

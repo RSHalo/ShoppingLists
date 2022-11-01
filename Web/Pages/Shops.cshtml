@@ -26,7 +26,11 @@
                     </h2>
                     <div id="@bodyId" class="accordion-collapse collapse mt-2" aria-labelledby="@headerId" data-bs-parent="#shopAccordion">
 
-                        <button class="btn btn-primary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#@registerItemModalId">
+                        <button class="btn btn-primary btn-sm content-loader mb-2"
+                        data-bs-toggle="modal"
+                        data-bs-target="#@registerItemModalId"
+                        data-load-url="@Url.Action(nameof(ShopsController.ProductOptions), ShopsController.ControllerName, new { shopName = shop.Name })"
+                        data-load-target="#@registerItemModalId .shop-items">
                             <i class="fa-solid fa-plus"></i> Register Product
                         </button>
 

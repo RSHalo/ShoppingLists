@@ -8,19 +8,22 @@
             <div class="modal-body toggle-checkbox-container">
                 <p>Register a new item for shopping lists at @Model.ShopName.</p>
 
-                <div class="form-check">
+                <div class="mb-3">
+                    <label for="@Model.NewNameInputId" class="form-label">Item name:</label>
+                    <input type="text" class="form-control" id="@Model.NewNameInputId">
+                </div>
+
+                <div class="form-check mb-3">
                     <input class="form-check-input toggle-checkbox" type="checkbox" value="" id="@Model.AddToStartCheckboxId">
                     <label class="form-check-label" for="@Model.AddToStartCheckboxId">
                         Add item to the start of the list
                     </label>
                 </div>
 
-                <div class="mt-3 toggle-checkbox-target hide-on-checked">
+                <div class="toggle-checkbox-target hide-on-checked">
                     <label class="form-label">Insert the item after:</label>
-                    <select class="form-select">
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select class="form-select shop-items">
+                        <option>Loading items...</option>
                     </select>
                 </div>
 
