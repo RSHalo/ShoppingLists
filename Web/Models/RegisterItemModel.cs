@@ -6,6 +6,8 @@
 
         public string ModalId { get; set; } = DefaultModalId;
 
+        public string AddToStartCheckboxId => $"{ModalId}-addToStart";
+
         public string ShopName { get; set; }
 
         public string NewProductName { get; set; }
