@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShoppingList.Data.Products;
 using ShoppingList.Data.Shops;
+using ShoppingList.Web.Helper;
+using ShoppingList.Web.Models.Shops;
 
 namespace ShoppingList.Web.Pages
 {
@@ -14,18 +16,12 @@ namespace ShoppingList.Web.Pages
             _shopRepository = shopRepository;
         }
 
-        public Dictionary<IShopEntity, IList<IProductEntity>> ShopsWithProducts { get; set; }
+        public IList<ShopModel> Shops { get; set; } = new List<ShopModel>();
 
         public async Task<IActionResult> OnGet()
         {
-            ShopsWithProducts = new Dictionary<IShopEntity, IList<IProductEntity>>();
-
             IList<IShopEntity> shops = await _shopRepository.AllShopsAsync();
-            foreach (IShopEntity shop in shops)
-            {
-                IList<IProductEntity> products = await _shopRepository.AllProductsForShop(shop.Name);
-                ShopsWithProducts.Add(shop, products);
-            }
+            Shops = shops.Select(ModelMapper.ToModel).ToList();
 
             return Page();
         }

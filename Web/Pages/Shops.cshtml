@@ -1,7 +1,7 @@
 ﻿@page
 @model ShoppingList.Web.Pages.ShopsModel
 @{
-    if (Model.ShopsWithProducts.Any())
+    if (Model.Shops.Any())
     {
         <h2>All Shops</h2>
 
@@ -9,11 +9,8 @@
 
         <div class="accordion accordion-flush" id="shopAccordion">
 
-            @foreach (var shopWithProducts in Model.ShopsWithProducts)
+            @foreach (ShopModel shop in Model.Shops)
             {
-                var shop = shopWithProducts.Key;
-                var products = shopWithProducts.Value;
-
                 @* TODO: Move these to a model? *@
                 string headerId = $"{shop.Name}-header";
                 string bodyId = $"{shop.Name}-products";
