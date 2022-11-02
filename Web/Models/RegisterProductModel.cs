@@ -10,6 +10,8 @@
 
         public string AddToStartCheckboxId => $"{ModalId}-addToStart";
 
+        public string SubmitButtonId => $"{ModalId}-submit";
+
         public string ShopName { get; set; }
 
         public string NewProductName { get; set; }

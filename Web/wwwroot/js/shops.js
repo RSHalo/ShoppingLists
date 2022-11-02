@@ -14,6 +14,7 @@
             // When a "productAdded" event is raised, refresh the product list via a content-loader.
             container.addEventListener(productAddedEventName, () => refreshProducts(container));
 
+            // Refresh the products immediately to ensure that the product lists are correct upon page load.
             refreshProducts(container);
         });
 
