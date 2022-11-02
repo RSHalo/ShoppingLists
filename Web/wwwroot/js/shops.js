@@ -6,11 +6,6 @@
     function initialize() {
         const containers = document.querySelectorAll(".shop-container");
         containers.forEach((container) => {
-            // Wire up modal functionality.
-            const modal = container.querySelector(".register-product-modal");
-            const submitButton = modal.querySelector("button[type=submit]");
-            submitButton.addEventListener("click", () => registerNewProduct(modal, submitButton));
-
             // When a "productAdded" event is raised, refresh the product list via a content-loader.
             container.addEventListener(productAddedEventName, () => refreshProducts(container));
 
@@ -22,7 +17,18 @@
             const refreshButtons = container.querySelectorAll(".refresh-products");
             refreshButtons.forEach((button) => button.click());
         }
+
+        initializeModals();
     };
+
+    function initializeModals() {
+        // Wire up modal functionality.
+        const modals = document.querySelectorAll(".register-product-modal");
+        modals.forEach((modal) => {
+            const submitButton = modal.querySelector("button[type=submit]");
+            submitButton.addEventListener("click", () => registerNewProduct(modal, submitButton));
+        });
+    }
 
     function registerNewProduct(container, submitButton) {
         const newProductName = container.querySelector("input[type=text]").value;
@@ -58,7 +64,9 @@
         const event = new CustomEvent(productAddedEventName, { bubbles: true });
         container.dispatchEvent(event);
 
-        container.querySelector("input[type=text]").value = "";
+        // Clear the text input, so that it's empty when the modal opens again in future.
+        const input = container.querySelector("input[type=text]");
+        clearRequiredElement(input, true);
 
         const modal = bootstrap.Modal.getInstance(container);
         modal.hide();

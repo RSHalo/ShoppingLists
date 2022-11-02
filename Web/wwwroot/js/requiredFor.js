@@ -1,6 +1,6 @@
 ﻿// Disables and enables elements based on the value of other elements.
+const inputEventType = "input";
 ready(function () {
-    const inputEventType = "input";
     const requiredElements = document.querySelectorAll("[data-required-for]");
 
     requiredElements.forEach((requiredElement) => {
@@ -23,3 +23,11 @@ ready(function () {
         });
     };
 });
+
+function clearRequiredElement(element, triggerInputEvent = false) {
+    element.value = "";
+
+    if (triggerInputEvent) {
+        element.dispatchEvent(new Event(inputEventType));
+    }
+}

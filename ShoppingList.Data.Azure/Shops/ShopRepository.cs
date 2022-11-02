@@ -102,7 +102,7 @@ namespace ShoppingList.Data.InMemory.Shops
 
         private ProductEntity CreateProductToRegister(string newProductName, string nextProductName, IList<IProductEntity> existingProducts)
         {
-            if (nextProductName == null)
+            if (string.IsNullOrWhiteSpace(nextProductName))
             {
                 // The new product is the last item in the list. The current last item must point to the new item.
                 IProductEntity lastItem = existingProducts.Single(product => product.Next == null);

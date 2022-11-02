@@ -5,7 +5,11 @@
     <div>
         <p>List name is @Model.List.Name</p>
     </div>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#@RegisterProductModel.DefaultModalId">
+    <button class="btn btn-primary content-loader"
+            data-bs-toggle="modal"
+            data-bs-target="#@RegisterProductModel.DefaultModalId"
+            data-load-url="@Url.Action(nameof(ShopsController.ProductOptions), ShopsController.ControllerName, new { shopName = Model.List.ShopName })"
+            data-load-target="#@RegisterProductModel.DefaultModalId .product-options">
         <i class="fa-solid fa-plus"></i> Register Product
     </button>
 </div>
