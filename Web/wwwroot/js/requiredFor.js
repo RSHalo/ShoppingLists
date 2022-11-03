@@ -1,4 +1,6 @@
 ﻿// Disables and enables elements based on the value of other elements.
+// Usage: Place data-required-for="<selector>" on an input element such that the selected element will be disabled when the input
+// element has no value.
 const inputEventType = "input";
 ready(function () {
     const requiredElements = document.querySelectorAll("[data-required-for]");

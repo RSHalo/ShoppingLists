@@ -6,6 +6,11 @@ namespace ShoppingList.Data.Helper
     {
         public static IList<TItemEntity> InShopOrder<TItemEntity>(this IEnumerable<TItemEntity> unorderedItems) where TItemEntity : IProductEntity
         {
+            if (unorderedItems.Any() == false)
+            {
+                return new List<TItemEntity>();
+            }
+
             TItemEntity firstItem = default(TItemEntity);
             Dictionary<string, TItemEntity> itemsByName = new Dictionary<string, TItemEntity>();
 

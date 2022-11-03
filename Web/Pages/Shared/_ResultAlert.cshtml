@@ -1,0 +1,12 @@
+﻿@{
+    ResultAlertModel alertModel = TempData.Get<ResultAlertModel>(TempDataExtensions.ResultAlertKey);
+}
+
+@if (alertModel != null)
+{
+    string level = alertModel.IsSuccess ? "alert-success" : "alert-danger";
+
+    <div class="alert @level" role="alert">
+        @alertModel.Message
+    </div>
+}
