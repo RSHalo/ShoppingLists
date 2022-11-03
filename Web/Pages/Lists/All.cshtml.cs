@@ -2,13 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShoppingList.Data.Lists;
 
-namespace ShoppingList.Web.Pages
+namespace ShoppingList.Web.Pages.Lists
 {
-    public class ShoppingListsModel : PageModel
+    public class AllModel : PageModel
     {
         private readonly IListRepository _listRepository;
 
-        public ShoppingListsModel(IListRepository listRepository)
+        public AllModel(IListRepository listRepository)
         {
             _listRepository = listRepository;
         }

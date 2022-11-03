@@ -1,6 +1,10 @@
 ﻿@page
-@model ShoppingListsModel
+@model AllModel
 @{
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add List</button>
+    </div>
+
     if (Model.Lists.Any())
     {
         <h2>All Shopping Lists</h2>
@@ -18,7 +22,7 @@
                     <tr>
                         <td>@list.Name</td>
                         <td>
-                            <a class="btn btn-primary" asp-page="ShoppingList" asp-route-listName="@list.Name">Edit</a>
+                            <a class="btn btn-primary" asp-page="/Lists/Index" asp-route-listName="@list.Name">Edit</a>
                         </td>
                     </tr>
                 }
