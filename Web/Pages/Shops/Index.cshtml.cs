@@ -1,17 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ShoppingList.Data.Products;
 using ShoppingList.Data.Shops;
 using ShoppingList.Web.Helper;
 using ShoppingList.Web.Models.Shops;
 
-namespace ShoppingList.Web.Pages
+namespace ShoppingList.Web.Pages.Shops
 {
-    public class ShopsModel : PageModel
+    public class IndexModel : PageModel
     {
         private readonly IShopRepository _shopRepository;
 
-        public ShopsModel(IShopRepository shopRepository)
+        public IndexModel(IShopRepository shopRepository)
         {
             _shopRepository = shopRepository;
         }
