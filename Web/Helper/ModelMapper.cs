@@ -1,6 +1,5 @@
 ﻿using ShoppingList.Data.Products;
 using ShoppingList.Data.Shops;
-using ShoppingList.Web.Models;
 using ShoppingList.Web.Models.Shops;
 
 namespace ShoppingList.Web.Helper

@@ -1,4 +1,4 @@
-﻿namespace ShoppingList.Web.Models
+﻿namespace ShoppingList.Web.Models.Shops
 {
     public class ExistingProductOptionsModel
     {

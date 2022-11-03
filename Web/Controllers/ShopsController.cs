@@ -3,7 +3,6 @@ using ShoppingList.Data.Helper;
 using ShoppingList.Data.Products;
 using ShoppingList.Data.Shops;
 using ShoppingList.Web.Helper;
-using ShoppingList.Web.Models;
 using ShoppingList.Web.Models.Shops;
 
 namespace ShoppingList.Web.Controllers
