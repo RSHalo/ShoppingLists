@@ -1,5 +1,8 @@
 ﻿@page
 @model IndexModel
+@{
+    ViewData[nameof(BasePageModel.Title)] = Model.List.Name;
+}
 
 <div class="d-flex justify-content-between">
     <div>

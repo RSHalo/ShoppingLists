@@ -7,7 +7,7 @@ using ShoppingList.Web.Models.Shops;
 
 namespace ShoppingList.Web.Pages.Lists
 {
-    public class AllModel : PageModel
+    public class AllModel : BasePageModel
     {
         private readonly IListRepository _listRepository;
         private readonly IShopRepository _shopRepository;
@@ -16,6 +16,8 @@ namespace ShoppingList.Web.Pages.Lists
         {
             _listRepository = listRepository;
             _shopRepository = shopRepository;
+
+            Title = "All Lists";
         }
 
         public IList<IListEntity> Lists { get; set; }

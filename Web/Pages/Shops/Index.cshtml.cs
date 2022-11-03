@@ -6,13 +6,15 @@ using ShoppingList.Web.Models.Shops;
 
 namespace ShoppingList.Web.Pages.Shops
 {
-    public class IndexModel : PageModel
+    public class IndexModel : BasePageModel
     {
         private readonly IShopRepository _shopRepository;
 
         public IndexModel(IShopRepository shopRepository)
         {
             _shopRepository = shopRepository;
+
+            Title = "All Shops";
         }
 
         public IList<ShopModel> Shops { get; set; } = new List<ShopModel>();
