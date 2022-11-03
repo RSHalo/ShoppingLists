@@ -31,8 +31,10 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <button type="submit" class="btn btn-primary" id="@Model.SubmitButtonId"
-                    data-shop-name="@Model.ShopName"
-                    data-url="@Url.Action(nameof(ShopsController.RegisterProduct), ShopsController.ControllerName)">Add</button>
+                        data-shop-name="@Model.ShopName"
+                        data-url="@Url.Action(nameof(ShopsController.RegisterProduct), ShopsController.ControllerName)">
+                    Add
+                </button>
             </div>
         </div>
     </div>

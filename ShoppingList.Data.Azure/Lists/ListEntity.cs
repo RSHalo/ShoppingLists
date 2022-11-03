@@ -8,6 +8,6 @@ namespace ShoppingList.Data.InMemory.Lists
 
         public string Name { get; set; }
 
-        public IList<IItemEntity> Items { get; set; }
+        public IList<IItemEntity> Items { get; set; } = new List<IItemEntity>();
     }
 }

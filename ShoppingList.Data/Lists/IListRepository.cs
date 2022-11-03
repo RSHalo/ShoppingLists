@@ -5,5 +5,7 @@
         Task<IEnumerable<IListEntity>> AllListsAsync();
 
         Task<IListEntity> FindListAsync(string name);
+
+        Task<bool> AddListAsync(string name, string shopName);
     }
 }

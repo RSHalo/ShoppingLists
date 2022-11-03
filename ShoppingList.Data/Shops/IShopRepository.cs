@@ -5,6 +5,12 @@ namespace ShoppingList.Data.Shops
     public interface IShopRepository
     {
         /// <summary>
+        /// Finds a shop by it's name.
+        /// </summary>
+        /// <param name="shopName">The name of the shop.</param>
+        Task<IShopEntity> FindAsync(string shopName);
+
+        /// <summary>
         /// Gets all shops.
         /// </summary>
         Task<IList<IShopEntity>> AllShopsAsync();

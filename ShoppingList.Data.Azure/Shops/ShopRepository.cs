@@ -20,6 +20,11 @@ namespace ShoppingList.Data.InMemory.Shops
             InitializeProducts();
         }
 
+        public Task<IShopEntity> FindAsync(string shopName)
+        {
+            return Task.FromResult(_shops.FirstOrDefault(shop => shop.Name == shopName));
+        }
+
         public Task<IList<IShopEntity>> AllShopsAsync()
         {
             return Task.FromResult(_shops);
