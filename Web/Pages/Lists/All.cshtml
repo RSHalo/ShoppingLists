@@ -24,12 +24,24 @@
             <tbody>
                 @foreach (var list in Model.Lists) // TODO: Remove "var" usage when we have models for views, rather than entities.
                 {
+                    DialogueModel<string> dialogueModel = new DialogueModel<string>(list.Name);
+
                     <tr>
                         <td>@list.Name</td>
                         <td>
-                            <a class="btn btn-primary" asp-page="/Lists/Index" asp-route-listName="@list.Name">Edit</a>
+                            <div class="d-flex justify-content-end">
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" asp-page="/Lists/Index" asp-route-listName="@list.Name">Edit</a>
+
+                                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@dialogueModel.Id">
+                                        <i class="fa-solid fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
                         </td>
                     </tr>
+
+                    <partial name="_DeleteListConfirmModal" model=@dialogueModel/>
                 }
             </tbody>
         </table>

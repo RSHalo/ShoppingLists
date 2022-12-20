@@ -63,6 +63,13 @@ namespace ShoppingList.Data.InMemory.Lists
             };
             
             _lists.Add(newList);
+            return Task.FromResult(true);
+        }
+
+        public Task<bool> DeleteListAsync(string name)
+        {
+            ListEntity list = _lists.FirstOrDefault(list => list.Name == name);
+            _lists.Remove(list);
 
             return Task.FromResult(true);
         }

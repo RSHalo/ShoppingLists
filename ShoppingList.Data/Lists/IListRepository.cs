@@ -7,5 +7,7 @@
         Task<IListEntity> FindListAsync(string name);
 
         Task<bool> AddListAsync(string name, string shopName);
+
+        Task<bool> DeleteListAsync(string name);
     }
 }
