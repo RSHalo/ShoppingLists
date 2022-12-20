@@ -68,5 +68,27 @@ namespace ShoppingList.Web.Pages.Lists
 
             return RedirectToPage();
         }
+
+        public async Task<IActionResult> OnPostDeleteListAsync(string listName)
+        {
+            if (string.IsNullOrWhiteSpace(listName))
+            {
+                AddFailureAlert("Could not find the list to delete.");
+            }
+            else
+            {
+                bool success = await _listRepository.DeleteListAsync(listName);
+                if (success)
+                {
+                    AddSuccessAlert($"The {listName} list was deleted.");
+                }
+                else
+                {
+                    AddFailureAlert($"Failed to delete the {listName} list.");
+                }
+            }
+
+            return RedirectToPage();
+        }
     }
 }
