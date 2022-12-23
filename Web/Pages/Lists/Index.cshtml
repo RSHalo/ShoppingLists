@@ -4,10 +4,8 @@
     ViewData[nameof(BasePageModel.Title)] = Model.List.Name;
 }
 
-<div class="d-flex justify-content-between">
-    <div>
-        <p>List name is @Model.List.Name</p>
-    </div>
+<h2>@Model.List.Name</h2>
+<div class="d-flex justify-content-end">
     <button class="btn btn-primary content-loader"
             data-bs-toggle="modal"
             data-bs-target="#@RegisterProductModel.DefaultModalId"
@@ -17,12 +15,36 @@
     </button>
 </div>
 
-<p>Items:</p>
+<div class="list-index-container">
+    <div class="list-viewer rounded p-3 mt-1 list-item-viewer">
+        <p class="fw-bold">Items:</p>
 
-@foreach (var item in Model.List.Items)
-{
-    <p>@item.Name</p>
-}
+        @foreach (var item in Model.List.Items)
+        {
+            <p class="mb-0" is-visible="item.IsOn"> @item.Name</p>
+        }
+    </div>
+
+    <div class="mt-3 rounded p-3 list-product-viewer">
+        <p><span class="fw-bold">Search</span> for products to add to the list</p>
+        <div class="input-group mb-3">
+            <input class="form-control" type="text" />
+        </div>
+
+        <p>Or, <span class="fw-bold">select</span> products to add to the list</p>
+        @foreach (var item in Model.List.Items)
+        {
+            string inputId = $"check{item.Name}";
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="@item.Name" id="@inputId"
+                   disabled=@item.IsOn checked=@item.IsOn>
+                <label class="form-check-label" for="@inputId">
+                    @item.Name
+                </label>
+            </div>
+        }
+    </div>
+</div>
 
 @* Register item modal *@
 <partial name="_RegisterProductModal" model="new RegisterProductModel { ShopName = Model.List.ShopName }" />
