@@ -1,0 +1,7 @@
+﻿@model IndexModel
+@{
+    @foreach (var item in Model.List.Items)
+    {
+        <p class="mb-0" is-visible="item.IsOn"> @item.Name</p>
+    }
+}

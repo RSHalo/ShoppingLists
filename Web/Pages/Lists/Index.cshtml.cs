@@ -21,5 +21,12 @@ namespace ShoppingList.Web.Pages.Lists
 
             return Page();
         }
+
+        public async Task<IActionResult> OnGetTryItAsync(string listName)
+        {
+            List = await _listRepository.FindListAsync(listName);
+
+            return Partial("_Items", this);
+        }
     }
 }
