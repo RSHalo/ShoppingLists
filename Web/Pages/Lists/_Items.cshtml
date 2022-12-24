@@ -1,0 +1,17 @@
+﻿@model IndexModel
+@{
+    bool hasAnyItems = false;
+    @foreach (var item in Model.List.Items)
+    {
+        if (item.IsOn)
+        {
+            hasAnyItems = true;
+            <p class="mb-0" is-visible="item.IsOn"> @item.Name</p>
+        }
+    }
+    
+    if (hasAnyItems == false)
+    {
+        <p class="mb-0">There are no items in this list.</p>
+    }
+}
