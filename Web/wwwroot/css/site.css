@@ -29,6 +29,11 @@ body {
     background-color: lightgrey;
 }
 
+
+.shopping-mode-items .item:nth-child(odd) {
+    background-color: #ccc;
+}
+
 .shopping-mode-items.unpicked .item.picked {
     display: none;
 }

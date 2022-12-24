@@ -4,7 +4,10 @@
 {
     @foreach (ItemModel item in Model.Items)
     {
-        <div class="item @Model.PickedStatusCssClass">@item.Name</div>
+        <div class="d-flex justify-content-between align-items-center item p-2 border @Model.PickedStatusCssClass">
+            @item.Name
+            <button class="btn btn-primary">Pick</button>
+        </div>
     }
 }
 else
