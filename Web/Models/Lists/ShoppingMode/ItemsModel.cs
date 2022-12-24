@@ -10,5 +10,7 @@
         public abstract string PickedStatusCssClass { get; }
 
         public abstract string NoItemsMessage { get; }
+
+        public abstract string PickButtonText { get; }
     }
 }

@@ -5,5 +5,8 @@
         public override string PickedStatusCssClass => UnpickedCssClass;
 
         public override string NoItemsMessage => "All items have been picked!";
+
+
+        public override string PickButtonText => "Pick";
     }
 }
