@@ -15,9 +15,17 @@
     function initializeCheckboxes() {
         const checkboxes = document.querySelectorAll(".list-product-viewer .form-check-input");
         checkboxes.forEach((checkbox) => {
-            checkbox.addEventListener("change", () => {
-                console.log("changed!");
-                Reloader.reload(listItemViewer);
+            checkbox.addEventListener("change", function() {
+                let form = document.getElementById(this.dataset.form);
+                let data = new FormData(form);
+                data.set("toggleToOn", this.checked);
+                let url = form.action;
+
+                fetch(url, {
+                    method: "POST",
+                    body: data
+                })
+                    .then(() => Reloader.reload(listItemViewer));
             });
         })
     }

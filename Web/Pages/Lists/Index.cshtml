@@ -19,7 +19,7 @@
     <div class="rounded p-3 mt-1 list-item-viewer">
         <p class="fw-bold">Items:</p>
 
-        <div class="reloadable" data-reload-url="/Lists/Index?listName=@Model.List.Name&handler=TryIt">
+        <div class="reloadable" data-reload-url="/Lists/Index?listName=@Model.List.Name&handler=Items">
             <partial name="_Items" />
         </div>
     </div>
@@ -34,12 +34,18 @@
         @foreach (var item in Model.List.Items)
         {
             string inputId = $"check{item.Name}";
+            string formId = $"toggleForm{item.Name}";
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="@item.Name" id="@inputId"
-                   disabled=@item.IsOn checked=@item.IsOn>
+                <input class="form-check-input" type="checkbox" value="@item.Name" id="@inputId" checked=@item.IsOn
+                    data-form="@formId">
                 <label class="form-check-label" for="@inputId">
                     @item.Name
                 </label>
+
+                <form id="@formId" class="d-none" method="post" asp-page-handler="ToggleItem">
+                    <input name="listName" value="@Model.List.Name" />
+                    <input name="itemName" value="@item.Name" />
+                </form>
             </div>
         }
     </div>
