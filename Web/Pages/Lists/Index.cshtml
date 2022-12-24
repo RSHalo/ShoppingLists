@@ -16,15 +16,7 @@
 </div>
 
 <div class="list-index-container">
-    <div class="rounded p-3 mt-1 list-item-viewer">
-        <p class="fw-bold">Items:</p>
-
-        <div class="reloadable" data-reload-url="/Lists/Index?listName=@Model.List.Name&handler=Items">
-            <partial name="_Items" />
-        </div>
-    </div>
-
-    <div class="mt-3 rounded p-3 list-product-viewer">
+    <div class="mt-1 rounded p-3 list-product-viewer">
         <p><span class="fw-bold">Search</span> for products to add to the list</p>
         <div class="input-group mb-3">
             <input class="form-control" type="text" />
@@ -37,7 +29,7 @@
             string formId = $"toggleForm{item.Name}";
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="@item.Name" id="@inputId" checked=@item.IsOn
-                    data-form="@formId">
+                   data-form="@formId">
                 <label class="form-check-label" for="@inputId">
                     @item.Name
                 </label>
@@ -48,6 +40,13 @@
                 </form>
             </div>
         }
+    </div>
+
+    <div class="rounded p-3 mt-3 list-item-viewer">
+        <p class="fw-bold">Items:</p>
+        <div class="reloadable" data-reload-url="/Lists/Index?listName=@Model.List.Name&handler=Items">
+            <partial name="_Items" />
+        </div>
     </div>
 </div>
 
