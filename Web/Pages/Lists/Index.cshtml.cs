@@ -18,25 +18,8 @@ namespace ShoppingList.Web.Pages.Lists
         public async Task<IActionResult> OnGet(string listName)
         {
             List = await _listRepository.FindListAsync(listName);
+
             return Page();
-        }
-
-        public async Task<IActionResult> OnGetItemsAsync(string listName)
-        {
-            List = await _listRepository.FindListAsync(listName);
-            return Partial("_Items", this);
-        }
-
-        public async Task OnPostToggleItemAsync(string listName, string itemName, bool toggleToOn)
-        {
-            if (toggleToOn)
-            {
-                await _listRepository.AddItemAsync(listName, itemName);
-            }
-            else
-            {
-                await _listRepository.RemoveItemAsync(listName, itemName);
-            }
         }
     }
 }

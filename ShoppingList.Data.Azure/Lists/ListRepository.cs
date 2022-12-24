@@ -1,6 +1,6 @@
-﻿using ShoppingList.Data.InMemory.Shops;
+﻿using ShoppingList.Data.Helper;
+using ShoppingList.Data.InMemory.Shops;
 using ShoppingList.Data.Lists;
-using ShoppingList.Data.Shops;
 
 namespace ShoppingList.Data.InMemory.Lists
 {
@@ -8,32 +8,33 @@ namespace ShoppingList.Data.InMemory.Lists
     {
         private readonly List<ListEntity> _lists;
 
-        public ListRepository(IShopRepository shopRepository)
+        public ListRepository()
         {
-            ListEntity list1 = new ListEntity
-            {
-                ShopName = ShopNames.ALDI,
-                Name = "ALDI List",
-                Items = shopRepository.AllProductsForShop(ShopNames.ALDI).Result.Select(p => new ItemEntity(p)).ToList<IItemEntity>()
-            };
-            ToggleItem(list1, ProductNames.Bananas, true);
-            ToggleItem(list1, ProductNames.Apples, true);
-            ToggleItem(list1, ProductNames.Onions, true);
-            ToggleItem(list1, ProductNames.Yoghurt, true);
-
-            ListEntity list2 = new ListEntity
-            {
-                ShopName = ShopNames.Sainsburys,
-                Name = "Berrys List",
-                Items = shopRepository.AllProductsForShop(ShopNames.Sainsburys).Result.Select(p => new ItemEntity(p)).ToList<IItemEntity>()
-            };
-            ToggleItem(list2, ProductNames.Crisps, true);
-            ToggleItem(list2, ProductNames.QuornNuggets, true);
-            ToggleItem(list2, ProductNames.Sausages, true);
-
             _lists = new List<ListEntity>
             {
-                list1, list2
+                new ListEntity
+                {
+                    ShopName = ShopNames.ALDI,
+                    Name = "ALDI List",
+                    Items = new List<IItemEntity>
+                    {
+                        new ItemEntity { Name = ProductNames.Bananas, Next = ProductNames.Yoghurt },
+                        new ItemEntity { Name = ProductNames.Apples, Next =  ProductNames.Bananas, IsFirst = true },
+                        new ItemEntity { Name = ProductNames.Onions },
+                        new ItemEntity { Name = ProductNames.Yoghurt, Next = ProductNames.Onions}
+                    }
+                },
+                new ListEntity
+                {
+                    ShopName = ShopNames.Sainsburys,
+                    Name = "Berrys List",
+                    Items = new List<IItemEntity>
+                    {
+                        new ItemEntity { Name = ProductNames.Crisps, Next = ProductNames.QuornNuggets },
+                        new ItemEntity { Name = ProductNames.QuornNuggets },
+                        new ItemEntity { Name = ProductNames.Sausages, Next = ProductNames.Crisps, IsFirst = true }
+                    }
+                }
             };
         }
 
@@ -46,6 +47,10 @@ namespace ShoppingList.Data.InMemory.Lists
         public Task<IListEntity> FindListAsync(string name)
         {
             ListEntity list = _lists.FirstOrDefault(list => list.Name == name);
+            if (list != null)
+            {
+                list.Items = list.Items.InShopOrder();
+            }
             return Task.FromResult(list as IListEntity);
         }
 
@@ -67,43 +72,6 @@ namespace ShoppingList.Data.InMemory.Lists
             _lists.Remove(list);
 
             return Task.FromResult(true);
-        }
-
-        public Task<bool> AddItemAsync(string listName, string itemName)
-        {
-            bool result = ToggleItem(listName, itemName, true);
-            return Task.FromResult(result);
-        }
-
-        public Task<bool> RemoveItemAsync(string listName, string itemName)
-        {
-            bool result = ToggleItem(listName, itemName, false);
-            return Task.FromResult(result);
-        }
-
-        private bool ToggleItem(string listName, string itemName, bool includeInList)
-        {
-            ListEntity list = _lists.FirstOrDefault(list => list.Name == listName);
-            if (list != null)
-            {
-                return ToggleItem(list, itemName, includeInList);
-            }
-
-            return false;
-        }
-
-        private bool ToggleItem(IListEntity list, string itemName, bool includeInList)
-        {
-            foreach (IItemEntity item in list.Items)
-            {
-                if (item.Name == itemName)
-                {
-                    item.IsOn = includeInList;
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

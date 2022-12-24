@@ -1,6 +1,5 @@
 Send models to views, rather than entities. Can AutoMapper help here?
 Non In-memory data access. Perhaps Azure Storage? SQLite?
-Research to handle 400s and 500s when using fetch API. The server threw a nullref, and the whole stacktrace was inserted into an element's innerHTML.
 Remove jQuery
 Resource strings
 Tidy exception handling. Throwing base Exceptions with hardcoded strings at the moment.
