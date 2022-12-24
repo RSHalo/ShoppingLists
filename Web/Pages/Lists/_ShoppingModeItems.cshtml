@@ -1,0 +1,13 @@
+﻿@model ItemsModel
+
+@if (Model.Items.Any())
+{
+    @foreach (ItemModel item in Model.Items)
+    {
+        <div class="item @Model.PickedStatusCssClass">@item.Name</div>
+    }
+}
+else
+{
+    <div class="no-items-message">@Model.NoItemsMessage</div>
+}

@@ -6,12 +6,15 @@
 
 <h2>@Model.List.Name</h2>
 <div class="d-flex justify-content-end">
-    <button class="btn btn-primary content-loader"
+    <a class="btn btn-primary me-1" asp-page="ShoppingMode" asp-route-listName="@Model.List.Name">
+        <i class="fa-solid fa-building"></i> Shopping Mode
+    </a>
+    <button class="btn btn-secondary content-loader"
             data-bs-toggle="modal"
             data-bs-target="#@RegisterProductModel.DefaultModalId"
             data-load-url="@Url.Action(nameof(ShopsController.ProductOptions), ShopsController.ControllerName, new { shopName = Model.List.ShopName })"
             data-load-target="#@RegisterProductModel.DefaultModalId .product-options">
-        <i class="fa-solid fa-plus"></i> Register Product
+        <i class="fa-solid fa-plus"></i> Register Product With Shop
     </button>
 </div>
 

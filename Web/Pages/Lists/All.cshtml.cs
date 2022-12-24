@@ -29,7 +29,7 @@ namespace ShoppingList.Web.Pages.Lists
             Lists = lists.ToList();
 
             IList<IShopEntity> shops = await _shopRepository.AllShopsAsync();
-            Shops = shops.Select(ModelMapper.ToModel).ToList();
+            Shops = shops.Select(ModelMapper.ToShopModel).ToList();
 
             return Page();
         }
