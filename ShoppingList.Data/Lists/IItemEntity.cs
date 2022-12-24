@@ -15,6 +15,6 @@ namespace ShoppingList.Data.Lists
         /// <summary>
         /// Whether the item has been picked during the current shopping trip.
         /// </summary>
-        bool IsPicked { get; }
+        bool IsPicked { get; set; }
     }
 }

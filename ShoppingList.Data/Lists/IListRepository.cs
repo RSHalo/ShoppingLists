@@ -13,5 +13,9 @@
         Task<bool> AddItemAsync(string listName, string itemName);
 
         Task<bool> RemoveItemAsync(string listName, string itemName);
+
+        Task<bool> PickItemAsync(string listName, string itemName);
+
+        Task<bool> UnpickItemAsync(string listName, string itemName);
     }
 }

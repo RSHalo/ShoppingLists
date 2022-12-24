@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShoppingList.Data.Lists;
 using ShoppingList.Web.Helper;
-using ShoppingList.Web.Models.Lists;
 using ShoppingList.Web.Models.Lists.ShoppingMode;
 
 namespace ShoppingList.Web.Pages.Lists
@@ -29,6 +28,20 @@ namespace ShoppingList.Web.Pages.Lists
             BuildItemsModel(UnpickedItems, item => item.IsPicked == false);
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostTogglePickStatusAsync(string listName, string itemName, bool markAsPicked)
+        {
+            if (markAsPicked)
+            {
+                await _listRepository.PickItemAsync(listName, itemName);
+            }
+            else
+            {
+                await _listRepository.UnpickItemAsync(listName, itemName);
+            }
+
+            return new OkResult();
         }
 
         private void BuildItemsModel(ItemsModel model, Func<IItemEntity, bool> itemsSelector)
