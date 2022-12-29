@@ -23,11 +23,14 @@ namespace ShoppingList.Web.Pages.Lists
 
         public async Task<IActionResult> OnGet(string listName)
         {
-            List = await _listRepository.FindListAsync(listName);
-            BuildItemsModel(PickedItems, item => item.IsPicked);
-            BuildItemsModel(UnpickedItems, item => item.IsPicked == false);
-
+            await BuildModelAsync(listName);
             return Page();
+        }
+
+        public async Task<IActionResult> OnGetPickListsAsync(string listName)
+        {
+            await BuildModelAsync(listName);
+            return Partial("_ShoppingModeLists", this);
         }
 
         public async Task<IActionResult> OnPostTogglePickStatusAsync(string listName, string itemName, bool markAsPicked)
@@ -42,6 +45,13 @@ namespace ShoppingList.Web.Pages.Lists
             }
 
             return new OkResult();
+        }
+
+        private async Task BuildModelAsync(string listName)
+        {
+            List = await _listRepository.FindListAsync(listName);
+            BuildItemsModel(PickedItems, item => item.IsPicked);
+            BuildItemsModel(UnpickedItems, item => item.IsPicked == false);
         }
 
         private void BuildItemsModel(ItemsModel model, Func<IItemEntity, bool> itemsSelector)
