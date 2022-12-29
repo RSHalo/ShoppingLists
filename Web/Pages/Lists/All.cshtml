@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var list in Model.Lists) // TODO: Remove "var" usage when we have models for views, rather than entities.
+                @foreach (ListModel list in Model.Lists)
                 {
                     DialogueModel<string> dialogueModel = new DialogueModel<string>(list.Name);
 
