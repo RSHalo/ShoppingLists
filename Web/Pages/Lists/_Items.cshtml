@@ -1,7 +1,7 @@
 ﻿@model IndexModel
 @{
     bool hasAnyItems = false;
-    @foreach (var item in Model.List.Items)
+    @foreach (ItemModel item in Model.List.Items)
     {
         if (item.IsOn)
         {

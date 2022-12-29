@@ -26,7 +26,7 @@
         </div>
 
         <p>Or, <span class="fw-bold">select</span> products to add to the list</p>
-        @foreach (var item in Model.List.Items)
+        @foreach (ItemModel item in Model.List.Items)
         {
             string inputId = $"check{item.Name}";
             string formId = $"toggleForm{item.Name}";
