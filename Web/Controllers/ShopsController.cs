@@ -24,7 +24,7 @@ namespace ShoppingList.Web.Controllers
         public async Task<IActionResult> AllProducts(string shopName)
         {
             IList<IProductEntity> products = await _shopRepository.AllProductsForShop(shopName);
-            IList<ProductModel> productModels = products.Select(ModelMapper.ToModel).ToList();
+            IList<ProductModel> productModels = products.Select(ModelMapper.ToProductModel).ToList();
 
             ExistingProductsModel model = new ExistingProductsModel { Products = productModels };
             return PartialView("_ExistingProducts", model);
@@ -37,7 +37,7 @@ namespace ShoppingList.Web.Controllers
         public async Task<IActionResult> ProductOptions(string shopName)
         {
             IList<IProductEntity> products = await _shopRepository.AllProductsForShop(shopName);
-            IList<ProductModel> productModels = products.Select(ModelMapper.ToModel).ToList();
+            IList<ProductModel> productModels = products.Select(ModelMapper.ToProductModel).ToList();
 
             ExistingProductOptionsModel model = new ExistingProductOptionsModel { Products = productModels };
             return PartialView("_ExistingProductOptions", model);

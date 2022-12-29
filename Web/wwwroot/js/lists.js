@@ -16,6 +16,7 @@
         const checkboxes = document.querySelectorAll(".list-product-viewer .form-check-input");
         checkboxes.forEach((checkbox) => {
             checkbox.addEventListener("change", function() {
+                this.disabled = true;
                 let form = document.getElementById(this.dataset.form);
                 let data = new FormData(form);
                 data.set("toggleToOn", this.checked);
@@ -26,6 +27,8 @@
                     body: data
                 })
                     .then(() => Reloader.reload(listItemViewer));
+
+                this.disabled = false;
             });
         })
     }

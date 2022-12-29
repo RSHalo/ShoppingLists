@@ -1,0 +1,16 @@
+﻿@model ItemsModel
+
+@if (Model.Items.Any())
+{
+    @foreach (ItemModel item in Model.Items)
+    {
+        <div class="d-flex justify-content-between align-items-center item p-2 border @Model.PickedStatusCssClass">
+            @item.Name
+            <button class="btn btn-primary toggle-picked-button" data-item-name="@item.Name">@Model.PickButtonText</button>
+        </div>
+    }
+}
+else
+{
+    <div class="no-items-message">@Model.NoItemsMessage</div>
+}

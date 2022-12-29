@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using ShoppingList.Data.Lists;
 using ShoppingList.Data.Shops;
 using ShoppingList.Web.Helper;
+using ShoppingList.Web.Models.Lists;
 using ShoppingList.Web.Models.Shops;
 
 namespace ShoppingList.Web.Pages.Lists
@@ -19,17 +20,17 @@ namespace ShoppingList.Web.Pages.Lists
             Title = "All Lists";
         }
 
-        public IList<IListEntity> Lists { get; set; }
+        public IList<ListModel> Lists { get; set; }
 
         public IList<ShopModel> Shops { get; set; }
 
         public async Task<IActionResult> OnGet()
         {
             IEnumerable<IListEntity> lists = await _listRepository.AllListsAsync();
-            Lists = lists.ToList();
+            Lists = lists.Select(ModelMapper.ToListModel).ToList();
 
             IList<IShopEntity> shops = await _shopRepository.AllShopsAsync();
-            Shops = shops.Select(ModelMapper.ToModel).ToList();
+            Shops = shops.Select(ModelMapper.ToShopModel).ToList();
 
             return Page();
         }

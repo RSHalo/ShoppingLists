@@ -81,6 +81,18 @@ namespace ShoppingList.Data.InMemory.Lists
             return Task.FromResult(result);
         }
 
+        public Task<bool> PickItemAsync(string listName, string itemName)
+        {
+            bool result = TogglePickStatus(listName, itemName, true);
+            return Task.FromResult(result);
+        }
+
+        public Task<bool> UnpickItemAsync(string listName, string itemName)
+        {
+            bool result = TogglePickStatus(listName, itemName, false);
+            return Task.FromResult(result);
+        }
+
         private bool ToggleItem(string listName, string itemName, bool includeInList)
         {
             ListEntity list = _lists.FirstOrDefault(list => list.Name == listName);
@@ -92,13 +104,38 @@ namespace ShoppingList.Data.InMemory.Lists
             return false;
         }
 
-        private bool ToggleItem(IListEntity list, string itemName, bool includeInList)
+        private static bool ToggleItem(IListEntity list, string itemName, bool includeInList)
         {
             foreach (IItemEntity item in list.Items)
             {
                 if (item.Name == itemName)
                 {
                     item.IsOn = includeInList;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool TogglePickStatus(string listName, string itemName, bool markAsPicked)
+        {
+            ListEntity list = _lists.FirstOrDefault(list => list.Name == listName);
+            if (list != null)
+            {
+                return ToggleItemPickStatus(list, itemName, markAsPicked);
+            }
+
+            return false;
+        }
+
+        private static bool ToggleItemPickStatus(ListEntity list, string itemName, bool markAsPicked)
+        {
+            foreach (IItemEntity item in list.Items)
+            {
+                if (item.Name == itemName)
+                {
+                    item.IsPicked = markAsPicked;
                     return true;
                 }
             }

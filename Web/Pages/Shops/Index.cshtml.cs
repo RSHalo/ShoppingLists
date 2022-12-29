@@ -22,7 +22,7 @@ namespace ShoppingList.Web.Pages.Shops
         public async Task<IActionResult> OnGet()
         {
             IList<IShopEntity> shops = await _shopRepository.AllShopsAsync();
-            Shops = shops.Select(ModelMapper.ToModel).ToList();
+            Shops = shops.Select(ModelMapper.ToShopModel).ToList();
 
             return Page();
         }

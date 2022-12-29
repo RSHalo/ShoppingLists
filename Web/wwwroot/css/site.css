@@ -1,20 +1,20 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 .accordion-striped .accordion-item:nth-of-type(2n+1) .accordion-button {
@@ -27,4 +27,17 @@ body {
 
 .list-product-viewer {
     background-color: lightgrey;
+}
+
+
+.shopping-mode-items .item:nth-child(odd) {
+    background-color: #ccc;
+}
+
+.shopping-mode-items.unpicked .item.picked {
+    display: none;
+}
+
+.shopping-mode-items.picked .item.unpicked {
+    display: none;
 }
