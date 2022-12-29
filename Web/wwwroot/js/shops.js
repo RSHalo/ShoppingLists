@@ -1,5 +1,5 @@
 ﻿ready(function () {
-    const productAddedEventName = "productAdded";
+    const productAddedEventName = EventNames.productAdded;
 
     initialize();
 
