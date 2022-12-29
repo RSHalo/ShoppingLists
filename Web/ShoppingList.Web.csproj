@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ShoppingList.Core\ShoppingList.Core.csproj" />
     <ProjectReference Include="..\ShoppingList.Data.Azure\ShoppingList.Data.InMemory.csproj" />
     <ProjectReference Include="..\ShoppingList.Data\ShoppingList.Data.csproj" />
   </ItemGroup>

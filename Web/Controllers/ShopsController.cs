@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShoppingList.Core;
 using ShoppingList.Data.Helper;
 using ShoppingList.Data.Products;
 using ShoppingList.Data.Shops;
@@ -10,11 +11,13 @@ namespace ShoppingList.Web.Controllers
     public class ShopsController : Controller
     {
         private readonly IShopRepository _shopRepository;
+        private readonly IProductMaintainer _productMaintainer;
         public const string ControllerName = "Shops";
 
-        public ShopsController(IShopRepository shopRepository)
+        public ShopsController(IShopRepository shopRepository, IProductMaintainer productMaintainer)
         {
             _shopRepository = shopRepository;
+            _productMaintainer = productMaintainer;
         }
 
         /// <summary>
@@ -46,7 +49,7 @@ namespace ShoppingList.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterProduct([FromBody]RegisterProductModel model)
         {
-            bool success = await _shopRepository.RegisterProduct(model.ShopName, model.NewProductName, model.NextProductName);
+            await _productMaintainer.RegisterProductAsync(model.ShopName, model.NewProductName, model.NextProductName);
             return Ok();
         }
     }

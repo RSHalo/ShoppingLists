@@ -40,7 +40,7 @@ namespace ShoppingList.Data.InMemory.Shops
             throw new Exception("No shop.");
         }
 
-        public Task<bool> RegisterProduct(string shopName, string newProductName, string nextProductName)
+        public Task<bool> RegisterProductAsync(string shopName, string newProductName, string nextProductName)
         {
             if (_productsByShop.ContainsKey(shopName) == false || newProductName == null)
             {

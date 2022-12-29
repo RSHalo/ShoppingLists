@@ -1,12 +1,13 @@
 ﻿using ShoppingList.Data.InMemory.Shops;
 using ShoppingList.Data.Lists;
+using ShoppingList.Data.Products;
 using ShoppingList.Data.Shops;
 
 namespace ShoppingList.Data.InMemory.Lists
 {
     public class ListRepository : IListRepository
     {
-        private readonly List<ListEntity> _lists;
+        private readonly List<IListEntity> _lists;
 
         public ListRepository(IShopRepository shopRepository)
         {
@@ -31,7 +32,7 @@ namespace ShoppingList.Data.InMemory.Lists
             ToggleItem(list2, ProductNames.QuornNuggets, true);
             ToggleItem(list2, ProductNames.Sausages, true);
 
-            _lists = new List<ListEntity>
+            _lists = new List<IListEntity>
             {
                 list1, list2
             };
@@ -45,8 +46,39 @@ namespace ShoppingList.Data.InMemory.Lists
 
         public Task<IListEntity> FindListAsync(string name)
         {
-            ListEntity list = _lists.FirstOrDefault(list => list.Name == name);
-            return Task.FromResult(list as IListEntity);
+            IListEntity list = _lists.FirstOrDefault(list => list.Name == name);
+            return Task.FromResult(list);
+        }
+
+        public Task<IList<IListEntity>> AllListsForShop(string shopName)
+        {
+            IList<IListEntity> lists = _lists.Where(list => list.ShopName == shopName).ToList();
+            return Task.FromResult(lists);
+        }
+
+        public async Task<bool> UpdateShopProducts(string listName, IList<IProductEntity> allShopProducts)
+        {
+            ListEntity list = await FindListAsync(listName) as ListEntity;
+            if (list != null)
+            {
+                // Key the old items by name.
+                Dictionary<string, IItemEntity> oldItems = list.Items.ToDictionary(item => item.Name, item => item);
+
+                // Register the new items with the list.
+                list.Items = allShopProducts.Select(p => new ItemEntity(p)).ToList<IItemEntity>();
+
+                // Re-apply the IsOn and IsPicked states to the new items.
+                foreach (IItemEntity item in list.Items)
+                {
+                    if (oldItems.TryGetValue(item.Name, out IItemEntity oldItem))
+                    {
+                        item.IsOn = oldItem.IsOn;
+                        item.IsPicked = oldItem.IsPicked;
+                    }
+                }
+            }
+
+            return true;
         }
 
         public Task<bool> AddListAsync(string name, string shopName)
@@ -63,7 +95,7 @@ namespace ShoppingList.Data.InMemory.Lists
 
         public Task<bool> DeleteListAsync(string name)
         {
-            ListEntity list = _lists.FirstOrDefault(list => list.Name == name);
+            IListEntity list = _lists.FirstOrDefault(list => list.Name == name);
             _lists.Remove(list);
 
             return Task.FromResult(true);
@@ -95,7 +127,7 @@ namespace ShoppingList.Data.InMemory.Lists
 
         private bool ToggleItem(string listName, string itemName, bool includeInList)
         {
-            ListEntity list = _lists.FirstOrDefault(list => list.Name == listName);
+            IListEntity list = _lists.FirstOrDefault(list => list.Name == listName);
             if (list != null)
             {
                 return ToggleItem(list, itemName, includeInList);
@@ -120,7 +152,7 @@ namespace ShoppingList.Data.InMemory.Lists
 
         private bool TogglePickStatus(string listName, string itemName, bool markAsPicked)
         {
-            ListEntity list = _lists.FirstOrDefault(list => list.Name == listName);
+            IListEntity list = _lists.FirstOrDefault(list => list.Name == listName);
             if (list != null)
             {
                 return ToggleItemPickStatus(list, itemName, markAsPicked);
@@ -129,7 +161,7 @@ namespace ShoppingList.Data.InMemory.Lists
             return false;
         }
 
-        private static bool ToggleItemPickStatus(ListEntity list, string itemName, bool markAsPicked)
+        private static bool ToggleItemPickStatus(IListEntity list, string itemName, bool markAsPicked)
         {
             foreach (IItemEntity item in list.Items)
             {
