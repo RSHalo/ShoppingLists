@@ -2,6 +2,12 @@
 @model ShoppingList.Web.Pages.Lists.ShoppingModeModel
 @{
     <h2>@Model.List.Name - Shopping Mode</h2>
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-primary me-1" asp-page="Index" asp-route-listName="@Model.List.Name">
+            <i class="fa-solid fa-pen-to-square"></i> Edit Mode
+        </a>
+    </div>
+
     <div class="shopping-mode">
         <div class="reloadable" data-reload-url="/Lists/ShoppingMode?listName=@Model.List.Name&handler=PickLists">
             <partial name="_ShoppingModeLists" />
