@@ -18,40 +18,29 @@
     </button>
 </div>
 
-<div class="list-index-container">
-    <div class="mt-1 rounded p-3 list-product-viewer">
-        <p><span class="fw-bold">Search</span> for products to add to the list</p>
-        <div class="input-group mb-3">
-            <input class="form-control" type="text" />
-        </div>
-
-        <p>Or, <span class="fw-bold">select</span> products to add to the list</p>
-        @foreach (ItemModel item in Model.List.Items)
-        {
-            string inputId = $"check{item.Name}";
-            string formId = $"toggleForm{item.Name}";
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="@item.Name" id="@inputId" checked=@item.IsOn
-                   data-form="@formId">
-                <label class="form-check-label" for="@inputId">
-                    @item.Name
-                </label>
-
-                <form id="@formId" class="d-none" method="post" asp-page-handler="ToggleItem">
-                    <input name="listName" value="@Model.List.Name" />
-                    <input name="itemName" value="@item.Name" />
-                </form>
+@if (Model.List.Items.Any())
+{
+    <div class="list-index-container">
+        <div class="mt-1 rounded p-3 list-product-viewer">
+            <p><span class="fw-bold">Search</span> for products to add to the list</p>
+            <div class="input-group mb-3">
+                <input class="form-control" type="text" />
             </div>
-        }
-    </div>
 
-    <div class="rounded p-3 mt-3 list-item-viewer">
-        <p class="fw-bold">Items:</p>
-        <div class="reloadable" data-reload-url="/Lists/Index?listName=@Model.List.Name&handler=Items">
-            <partial name="_Items" />
+            <p>Or, <span class="fw-bold">select</span> products to add to the list</p>
+            <div class="reloadable" data-reload-url="/Lists/Index?listName=@Model.List.Name&handler=Products">
+                <partial name="_Products" />
+            </div>
+        </div>
+
+        <div class="rounded p-3 mt-3 list-item-viewer">
+            <p class="fw-bold">Items:</p>
+            <div class="reloadable" data-reload-url="/Lists/Index?listName=@Model.List.Name&handler=Items">
+                <partial name="_Items" />
+            </div>
         </div>
     </div>
-</div>
+}
 
 @* Register item modal *@
 <partial name="_RegisterProductModal" model="new RegisterProductModel { ShopName = Model.List.ShopName }" />

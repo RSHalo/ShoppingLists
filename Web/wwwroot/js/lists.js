@@ -1,4 +1,5 @@
 ﻿ready(function () {
+    let listProductViewer;
     let listItemViewer;
 
     initialize();
@@ -6,30 +7,40 @@
     function initialize() {
         const container = document.querySelector(".list-index-container");
         if (container != null) {
+            listProductViewer = document.querySelector(".list-product-viewer");
             listItemViewer = document.querySelector(".list-item-viewer");
 
             initializeCheckboxes();
+            initializeProductAddedHandler();
         }
     };
 
     function initializeCheckboxes() {
-        const checkboxes = document.querySelectorAll(".list-product-viewer .form-check-input");
-        checkboxes.forEach((checkbox) => {
-            checkbox.addEventListener("change", function() {
-                this.disabled = true;
-                let form = document.getElementById(this.dataset.form);
-                let data = new FormData(form);
-                data.set("toggleToOn", this.checked);
-                let url = form.action;
+        listProductViewer.addEventListener("change", event => {
+            if (event.target.matches(".list-product-viewer .form-check-input")) {
+                checkboxHandler(event.target)
+            }
+        });
+    };
 
-                fetch(url, {
-                    method: "POST",
-                    body: data
-                })
-                    .then(() => Reloader.reload(listItemViewer));
+    function checkboxHandler(checkbox) {
+        checkbox.disabled = true;
+        let form = document.getElementById(checkbox.dataset.form);
+        let data = new FormData(form);
+        data.set("toggleToOn", checkbox.checked);
+        let url = form.action;
 
-                this.disabled = false;
-            });
+        fetch(url, {
+            method: "POST",
+            body: data
         })
+            .then(() => Reloader.reload(listItemViewer));
+
+        checkbox.disabled = false;
+    }
+
+    // When a product is added via a modal, reload the product list.
+    function initializeProductAddedHandler() {
+        document.addEventListener(EventNames.productAdded, () => Reloader.reload(listProductViewer));
     }
 });

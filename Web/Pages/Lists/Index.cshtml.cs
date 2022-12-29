@@ -31,6 +31,13 @@ namespace ShoppingList.Web.Pages.Lists
             return Partial("_Items", this);
         }
 
+        public async Task<IActionResult> OnGetProductsAsync(string listName)
+        {
+            IListEntity entity = await _listRepository.FindListAsync(listName);
+            List = entity.ToListModel();
+            return Partial("_Products", this);
+        }
+
         public async Task<IActionResult> OnPostToggleItemAsync(string listName, string itemName, bool toggleToOn)
         {
             if (toggleToOn)
