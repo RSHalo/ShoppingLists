@@ -13,6 +13,7 @@
     }
 
     function pickButtonHandler(button) {
+        button.disabled = true; // No need to enable the button at the end of this method, because the lists get reloaded via AJAX.
         const form = button.closest(".shopping-mode-items").querySelector("form");
         const data = new FormData(form);
         data.set("itemName", button.dataset.itemName);
