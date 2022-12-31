@@ -1,6 +1,6 @@
 ﻿using ShoppingList.Data.Products;
 
-namespace ShoppingList.Data.Helper
+namespace ShoppingList.Core.Helper
 {
     public static class OrderHelper
     {
@@ -11,7 +11,7 @@ namespace ShoppingList.Data.Helper
                 return new List<TItemEntity>();
             }
 
-            TItemEntity firstItem = default(TItemEntity);
+            TItemEntity firstItem = default;
             Dictionary<string, TItemEntity> itemsByName = new Dictionary<string, TItemEntity>();
 
             foreach (TItemEntity item in unorderedItems)

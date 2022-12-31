@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShoppingList.Core;
-using ShoppingList.Data.Helper;
 using ShoppingList.Data.Products;
 using ShoppingList.Data.Shops;
 using ShoppingList.Web.Helper;
@@ -18,19 +17,6 @@ namespace ShoppingList.Web.Controllers
         {
             _shopRepository = shopRepository;
             _productMaintainer = productMaintainer;
-        }
-
-        /// <summary>
-        /// Returns all products in a shop.
-        /// </summary>
-        [HttpGet]
-        public async Task<IActionResult> AllProducts(string shopName)
-        {
-            IList<IProductEntity> products = await _shopRepository.AllProductsForShop(shopName);
-            IList<ProductModel> productModels = products.Select(ModelMapper.ToProductModel).ToList();
-
-            ExistingProductsModel model = new ExistingProductsModel { Products = productModels };
-            return PartialView("_ExistingProducts", model);
         }
 
         /// <summary>

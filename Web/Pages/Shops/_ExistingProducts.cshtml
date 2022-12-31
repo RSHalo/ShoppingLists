@@ -1,0 +1,18 @@
+﻿@model ExistingProductsModel
+
+@{
+    DeleteProductModel dialogueModel = new DeleteProductModel { ShopName = Model.ShopName };
+}
+
+@foreach (ProductModel product in Model.Products)
+{
+    <div class="product d-flex justify-content-between p-3 ps-4" data-product-name="@product.Name">
+        @product.Name
+
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@dialogueModel.Id">
+            <i class="fa-solid fa-trash"></i> Delete
+        </button>
+    </div>
+}
+
+<partial name="Shops/_DeleteProductModal" model="dialogueModel" />

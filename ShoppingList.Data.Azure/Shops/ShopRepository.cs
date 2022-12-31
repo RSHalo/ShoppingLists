@@ -1,4 +1,4 @@
-﻿using ShoppingList.Data.Helper;
+﻿using ShoppingList.Core.Helper;
 using ShoppingList.Data.Products;
 using ShoppingList.Data.Shops;
 
@@ -54,26 +54,38 @@ namespace ShoppingList.Data.InMemory.Shops
             return Task.FromResult(true);
         }
 
+        public Task<bool> RemoveProductAsync(string shopName, string productName)
+        {
+            if (_productsByShop.ContainsKey(shopName) == false || productName == null)
+            {
+                return Task.FromResult(false);
+            }
+
+            List<IProductEntity> existingProducts = _productsByShop[shopName];
+            bool result = RemoveProduct(shopName, existingProducts.InShopOrder(), productName);
+            return Task.FromResult(result);
+        }
+
         private void InitializeProducts()
         {
             List<IProductEntity> products = new List<IProductEntity>
             {
                 new ProductEntity(ProductNames.Sausages)
-                { 
+                {
                     IsFirst = true,
                     Next = ProductNames.Bananas
                 },
                 new ProductEntity(ProductNames.Crisps)
-                { 
+                {
                     Next = ProductNames.QuornNuggets
                 },
                 new ProductEntity(ProductNames.Onions)
-                { 
+                {
                     Next = ProductNames.Crisps
                 },
                 new ProductEntity(ProductNames.QuornNuggets),
                 new ProductEntity(ProductNames.Bananas)
-                { 
+                {
                     Next = ProductNames.Onions
                 }
             };
@@ -151,6 +163,58 @@ namespace ShoppingList.Data.InMemory.Shops
                     Next = nextProduct.Name
                 };
             }
+        }
+
+        private bool RemoveProduct(string shopName, IList<IProductEntity> existingProducts, string productToRemove)
+        {
+            IProductEntity previousProduct = null;
+            IProductEntity toRemove = null;
+            IProductEntity nextProduct = null;
+
+            foreach (IProductEntity product in existingProducts)
+            {
+                if (toRemove != null)
+                {
+                    // We have found the product to remove, and the product it points to. We can exit the iteration.
+                    nextProduct = product;
+                    break;
+                }
+
+                if (product.Name == productToRemove)
+                {
+                    toRemove = product;
+                }
+                else
+                {
+                    previousProduct = product;
+                }
+            }
+
+            if (toRemove != null)
+            {
+                existingProducts.Remove(toRemove);
+
+                if (toRemove.IsFirst)
+                {
+                    // nextProduct will be null if toRemove was the only product in the list.
+                    if (nextProduct != null)
+                    {
+                        nextProduct.IsFirst = true;
+                    }
+                }
+
+                // If the previous product was pointing to the removed product, update the previous product's pointer.
+                // toRemove.Next could be null if toRemove was the last product in the shop.
+                if (previousProduct != null)
+                {
+                    previousProduct.Next = toRemove.Next;
+                }
+
+                _productsByShop[shopName] = existingProducts.ToList();
+                return true;
+            }
+
+            return false;
         }
     }
 }

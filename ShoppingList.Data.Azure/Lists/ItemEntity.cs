@@ -20,7 +20,11 @@ namespace ShoppingList.Data.InMemory.Lists
             set => _product.Next = value;
         }
 
-        public bool IsFirst => _product.IsFirst;
+        public bool IsFirst
+        {
+            get => _product.IsFirst;
+            set => _product.IsFirst = value;
+        }
 
         public bool IsPicked { get; set; }
 

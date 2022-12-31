@@ -21,6 +21,10 @@ body {
     background-color: rgba(0,0,0,0.05);
 }
 
+#shopAccordion .all-products .product:nth-child(odd) {
+    background-color: #e7f1ff;
+}
+
 .list-item-viewer {
     background-color: lightsteelblue;
 }
@@ -28,7 +32,6 @@ body {
 .list-product-viewer {
     background-color: lightgrey;
 }
-
 
 .shopping-mode-items .item:nth-child(odd) {
     background-color: #ccc;

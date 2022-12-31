@@ -1,4 +1,4 @@
-﻿namespace ShoppingList.Data.Helper
+﻿namespace ShoppingList.Core.Helper
 {
     public static class StringExtensions
     {

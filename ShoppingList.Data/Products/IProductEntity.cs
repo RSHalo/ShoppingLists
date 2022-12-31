@@ -18,6 +18,6 @@
         /// <summary>
         /// Whether the item is the first item.
         /// </summary>
-        bool IsFirst { get; }
+        bool IsFirst { get; set; }
     }
 }
