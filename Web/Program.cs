@@ -8,7 +8,7 @@ if (builder.Environment.IsDevelopment())
     mvcBuilder.AddRazorRuntimeCompilation();
 }
 
-builder.Services.AddDataAccessRepositories();
+builder.Services.AddDataAccess();
 
 var app = builder.Build();
 

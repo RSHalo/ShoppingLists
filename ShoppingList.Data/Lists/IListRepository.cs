@@ -1,10 +1,16 @@
-﻿namespace ShoppingList.Data.Lists
+﻿using ShoppingList.Data.Products;
+
+namespace ShoppingList.Data.Lists
 {
     public interface IListRepository
     {
         Task<IEnumerable<IListEntity>> AllListsAsync();
 
         Task<IListEntity> FindListAsync(string name);
+
+        Task<IList<IListEntity>> AllListsForShop(string shopName);
+
+        Task<bool> UpdateShopProducts(string listName, IList<IProductEntity> allShopProducts);
 
         Task<bool> AddListAsync(string name, string shopName);
 

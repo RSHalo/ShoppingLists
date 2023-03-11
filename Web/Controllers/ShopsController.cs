@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShoppingList.Data.Helper;
+using ShoppingList.Core;
 using ShoppingList.Data.Products;
 using ShoppingList.Data.Shops;
 using ShoppingList.Web.Helper;
@@ -10,24 +10,13 @@ namespace ShoppingList.Web.Controllers
     public class ShopsController : Controller
     {
         private readonly IShopRepository _shopRepository;
+        private readonly IProductMaintainer _productMaintainer;
         public const string ControllerName = "Shops";
 
-        public ShopsController(IShopRepository shopRepository)
+        public ShopsController(IShopRepository shopRepository, IProductMaintainer productMaintainer)
         {
             _shopRepository = shopRepository;
-        }
-
-        /// <summary>
-        /// Returns all products in a shop.
-        /// </summary>
-        [HttpGet]
-        public async Task<IActionResult> AllProducts(string shopName)
-        {
-            IList<IProductEntity> products = await _shopRepository.AllProductsForShop(shopName);
-            IList<ProductModel> productModels = products.Select(ModelMapper.ToProductModel).ToList();
-
-            ExistingProductsModel model = new ExistingProductsModel { Products = productModels };
-            return PartialView("_ExistingProducts", model);
+            _productMaintainer = productMaintainer;
         }
 
         /// <summary>
@@ -46,7 +35,7 @@ namespace ShoppingList.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterProduct([FromBody]RegisterProductModel model)
         {
-            bool success = await _shopRepository.RegisterProduct(model.ShopName, model.NewProductName, model.NextProductName);
+            await _productMaintainer.RegisterProductAsync(model.ShopName, model.NewProductName, model.NextProductName);
             return Ok();
         }
     }

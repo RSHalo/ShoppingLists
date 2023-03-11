@@ -26,7 +26,14 @@ namespace ShoppingList.Data.Shops
         /// </summary>
         /// <param name="shopName">The name of the shop.</param>
         /// <param name="newProductName">The new product to register.</param>
-        /// <param name="nextProductName">The next product in order. Null if <paramref name="product"/> should be the last item in the shop.</param>
-        Task<bool> RegisterProduct(string shopName, string newProductName, string nextProductName);
+        /// <param name="nextProductName">The next product in order. Null if <paramref name="newProductName"/> should be the last item in the shop.</param>
+        Task<bool> RegisterProductAsync(string shopName, string newProductName, string nextProductName);
+
+        /// <summary>
+        /// Removes a product from a shop.
+        /// </summary>
+        /// <param name="shopName">The name of the shop.</param>
+        /// <param name="productName">The name of the product to remove.</param>
+        Task<bool> RemoveProductAsync(string shopName, string productName);
     }
 }
