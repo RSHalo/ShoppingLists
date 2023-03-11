@@ -24,10 +24,10 @@
         searchInput.addEventListener("input", () => {
             // Show the products that contain the search term, by checking their data-upperName values.
             const searchTerm = searchInput.value.trim().toUpperCase();
-            const allCheckboxes = listProductViewer.querySelectorAll(".form-check");
+            const allCheckboxes = listProductViewer.querySelectorAll(".checkbox-container");
             if (searchTerm.length > 0) {
                 allCheckboxes.forEach(checkbox => {
-                    const upperName = checkbox.dataset.upperName;
+                    const upperName = checkbox.querySelector(".form-check").dataset.upperName;
                     ElementHelper.toggle(checkbox, () => upperName.includes(searchTerm));
                 });
             } else {

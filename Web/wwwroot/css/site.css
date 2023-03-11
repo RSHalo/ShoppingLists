@@ -25,12 +25,21 @@ body {
     background-color: #e7f1ff;
 }
 
-.list-item-viewer {
-    background-color: lightsteelblue;
-}
-
 .list-product-viewer {
     background-color: lightgrey;
+}
+
+    .list-product-viewer .checkbox-container {
+        padding: 5px;
+        background-color: white;
+    }
+
+        .list-product-viewer .checkbox-container:nth-child(odd) {
+            background-color: bisque;
+        }
+
+.list-item-viewer {
+    background-color: lightsteelblue;
 }
 
 .shopping-mode-items .item:nth-child(odd) {
