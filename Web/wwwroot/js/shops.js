@@ -12,23 +12,22 @@
             // Refresh the products immediately to ensure that the product lists are correct upon page load.
             refreshProducts(container);
 
-            initializeModals(container);
+            // Wire up "delete product" functionality.
+            initializeDeleteProductModal(container);
+        });
+
+        // Wire up "register product" functionality.
+        // This is is used in various parts of the application, so don't wire up inside the ".shop-container" initialization.
+        const registerProductModals = document.querySelectorAll(".register-product-modal");
+        registerProductModals.forEach(modal => {
+            const submitButton = modal.querySelector("button[type=submit]");
+            submitButton.addEventListener("click", () => registerNewProduct(modal, submitButton));
         });
     };
 
     function refreshProducts(container) {
         const refreshButtons = container.querySelectorAll(".refresh-products");
         refreshButtons.forEach((button) => button.click());
-    }
-
-    function initializeModals(container) {
-        // Wire up "register product" functionality.
-        const modal = container.querySelector(".register-product-modal");
-        const submitButton = modal.querySelector("button[type=submit]");
-        submitButton.addEventListener("click", () => registerNewProduct(modal, submitButton));
-
-        // Wire up "delete product" functionality.
-        initializeDeleteProductModal(container);
     }
 
     function registerNewProduct(container, submitButton) {
