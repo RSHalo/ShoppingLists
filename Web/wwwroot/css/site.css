@@ -25,13 +25,39 @@ body {
     background-color: #e7f1ff;
 }
 
-.list-item-viewer {
-    background-color: lightsteelblue;
-}
-
 .list-product-viewer {
     background-color: lightgrey;
 }
+
+    .list-product-viewer .checkbox-container {
+        padding: 5px;
+        background-color: white;
+    }
+
+        .list-product-viewer .checkbox-container:nth-child(odd) {
+            background-color: bisque;
+        }
+
+        .list-product-viewer .checkbox-container:hover {
+            cursor: pointer;
+            background-color: lightgray;
+        }
+
+        .list-product-viewer .checkbox-container[data-is-checked="true"] .item-off {
+            display: none;
+        }
+
+        .list-product-viewer .checkbox-container[data-is-checked="false"] .item-on {
+            display: none;
+        }
+
+    .list-product-viewer .checkbox-icons {
+        color: var(--bs-primary);
+    }
+
+    .list-item-viewer {
+        background-color: lightsteelblue;
+    }
 
 .shopping-mode-items .item:nth-child(odd) {
     background-color: #ccc;
