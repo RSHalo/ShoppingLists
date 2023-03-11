@@ -25,12 +25,12 @@
 {
     <div class="list-index-container">
         <div class="mt-1 rounded p-3 list-product-viewer">
-            <p><span class="fw-bold">Search</span> for products to add to the list</p>
             <div class="input-group mb-3">
-                <input class="form-control" type="text" />
+                <input id="productSearchInput" class="form-control" type="text" placeholder="Search products..."/>
+                <button class="btn btn-secondary" type="button" id="clearProductSearchButton">Clear Search</button>
             </div>
 
-            <p>Or, <span class="fw-bold">select</span> products to add to the list</p>
+            <p>Select products to add to the list</p>
             <div class="reloadable" data-reload-url="/Lists/Index?listName=@Model.List.Name&handler=Products">
                 <partial name="_Products" />
             </div>
