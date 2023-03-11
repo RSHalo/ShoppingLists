@@ -27,7 +27,7 @@
             const allCheckboxes = listProductViewer.querySelectorAll(".checkbox-container");
             if (searchTerm.length > 0) {
                 allCheckboxes.forEach(checkbox => {
-                    const upperName = checkbox.querySelector(".form-check").dataset.upperName;
+                    const upperName = checkbox.dataset.upperName;
                     ElementHelper.toggle(checkbox, () => upperName.includes(searchTerm));
                 });
             } else {
@@ -45,18 +45,24 @@
     }
 
     function initializeCheckboxes() {
-        listProductViewer.addEventListener("change", event => {
-            if (event.target.matches(".list-product-viewer .form-check-input")) {
-                checkboxHandler(event.target)
+        listProductViewer.addEventListener("click", event => {
+            // Check if the clicked item was inside a checkbox-container.
+            const container = event.target.closest(".checkbox-container");
+            if (container) {
+                checkboxHandler(container);
             }
         });
     };
 
-    function checkboxHandler(checkbox) {
-        checkbox.disabled = true;
-        let form = document.getElementById(checkbox.dataset.form);
+    function checkboxHandler(checkboxContainer) {
+        // Read the checked state from from the data-is-checked attribute. Parse to a bool for easier processing.
+        let isChecked = JSON.parse(checkboxContainer.dataset.isChecked);
+        isChecked = isChecked === false;
+        checkboxContainer.dataset.isChecked = isChecked;
+
+        let form = document.getElementById(checkboxContainer.dataset.form);
         let data = new FormData(form);
-        data.set("toggleToOn", checkbox.checked);
+        data.set("toggleToOn", isChecked);
         let url = form.action;
 
         fetch(url, {
@@ -64,8 +70,6 @@
             body: data
         })
             .then(() => Reloader.reload(listItemViewer));
-
-        checkbox.disabled = false;
     }
 
     // When a product is added via a modal, reload the product list.
