@@ -8,14 +8,17 @@ namespace ShoppingList.Data.InMemory.Lists
     public class ListRepository : IListRepository
     {
         private readonly List<IListEntity> _lists;
+        private readonly IShopRepository _shopRepository;
 
         public ListRepository(IShopRepository shopRepository)
         {
+            _shopRepository = shopRepository;
+
             ListEntity list1 = new ListEntity
             {
                 ShopName = ShopNames.ALDI,
                 Name = "ALDI List",
-                Items = shopRepository.AllProductsForShop(ShopNames.ALDI).Result.Select(p => new ItemEntity(p)).ToList<IItemEntity>()
+                Items = _shopRepository.AllProductsForShop(ShopNames.ALDI).Result.Select(p => new ItemEntity(p)).ToList<IItemEntity>()
             };
             ToggleItem(list1, ProductNames.Bananas, true);
             ToggleItem(list1, ProductNames.Apples, true);
@@ -26,7 +29,7 @@ namespace ShoppingList.Data.InMemory.Lists
             {
                 ShopName = ShopNames.Sainsburys,
                 Name = "Berrys List",
-                Items = shopRepository.AllProductsForShop(ShopNames.Sainsburys).Result.Select(p => new ItemEntity(p)).ToList<IItemEntity>()
+                Items = _shopRepository.AllProductsForShop(ShopNames.Sainsburys).Result.Select(p => new ItemEntity(p)).ToList<IItemEntity>()
             };
             ToggleItem(list2, ProductNames.Crisps, true);
             ToggleItem(list2, ProductNames.QuornNuggets, true);
@@ -86,7 +89,8 @@ namespace ShoppingList.Data.InMemory.Lists
             ListEntity newList = new ListEntity
             {
                 Name = name,
-                ShopName = shopName
+                ShopName = shopName,
+                Items = _shopRepository.AllProductsForShop(shopName).Result.Select(p => new ItemEntity(p)).ToList<IItemEntity>()
             };
             
             _lists.Add(newList);
