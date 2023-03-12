@@ -3,9 +3,13 @@
 @{
     ViewData[nameof(BasePageModel.Title)] = Model.List.Name;
 }
+<partial name="_ResultAlert" />
 
 <h2>@Model.List.Name</h2>
 <div class="d-flex justify-content-end">
+    <button class="btn btn-danger me-1" data-bs-toggle="modal" data-bs-target="#clearListModal">
+        <i class="fa-solid fa-eraser"></i> Clear List
+    </button>
     <a class="btn btn-primary me-1" asp-page="ShoppingMode" asp-route-listName="@Model.List.Name">
         <i class="fa-solid fa-building"></i> Shopping Mode
     </a>
@@ -17,6 +21,9 @@
         <i class="fa-solid fa-plus"></i> Register Product With Shop
     </button>
 </div>
+
+@* Clear list modal *@
+<partial name="_ClearListModal" model="new ClearListModel { ListName = Model.List.Name }" />
 
 @* Register item modal *@
 <partial name="_RegisterProductModal" model="new RegisterProductModel { ShopName = Model.List.ShopName }" />

@@ -129,6 +129,26 @@ namespace ShoppingList.Data.InMemory.Lists
             return Task.FromResult(result);
         }
 
+        public async Task<bool> ClearAsync(string listName, bool keepUnpickedItems)
+        {
+            IListEntity list = await FindListAsync(listName);
+            if (list == null)
+            {
+                return false;
+            }
+
+            foreach (IItemEntity item in list.Items)
+            {
+                if (item.IsPicked || keepUnpickedItems == false)
+                {
+                    item.IsOn = false;
+                    item.IsPicked = false;
+                }
+            }
+
+            return true;
+        }
+
         private bool ToggleItem(string listName, string itemName, bool includeInList)
         {
             IListEntity list = _lists.FirstOrDefault(list => list.Name == listName);
