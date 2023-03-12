@@ -6,7 +6,7 @@ using ShoppingList.Web.Models.Lists;
 
 namespace ShoppingList.Web.Pages.Lists
 {
-    public class IndexModel : PageModel
+    public class IndexModel : BasePageModel
     {
         private readonly IListRepository _listRepository;
 
@@ -50,6 +50,21 @@ namespace ShoppingList.Web.Pages.Lists
             }
 
             return new OkResult();
+        }
+
+        public async Task<IActionResult> OnPostClearAsync(string listName, bool keepUnpickedItems)
+        {
+            bool success = await _listRepository.ClearAsync(listName, keepUnpickedItems);
+            if (success)
+            {
+                AddSuccessAlert("Cleared list.");
+            }
+            else
+            {
+                AddFailureAlert("Failed to clear list.");
+            }
+
+            return RedirectToPage(new { listName });
         }
     }
 }

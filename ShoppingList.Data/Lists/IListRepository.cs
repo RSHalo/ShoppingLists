@@ -23,5 +23,7 @@ namespace ShoppingList.Data.Lists
         Task<bool> PickItemAsync(string listName, string itemName);
 
         Task<bool> UnpickItemAsync(string listName, string itemName);
+
+        Task<bool> ClearAsync(string listName, bool keepUnpickedItems);
     }
 }
