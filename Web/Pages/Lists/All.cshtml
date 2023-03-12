@@ -1,0 +1,53 @@
+﻿@page
+@model AllModel
+@{
+    <partial name="_ResultAlert" />
+
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addListModal">
+            <i class="fa-solid fa-plus"></i> Add List
+        </button>
+        <partial name="_AddListModal" model="Model.Shops" />
+    </div>
+
+    if (Model.Lists.Any())
+    {
+        <h2>All Shopping Lists</h2>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th></th> @* Actions in this column*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ListModel list in Model.Lists)
+                {
+                    DialogueModel<string> dialogueModel = new DialogueModel<string>(list.Name);
+
+                    <tr>
+                        <td>@list.Name</td>
+                        <td>
+                            <div class="d-flex justify-content-end">
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" asp-page="/Lists/Index" asp-route-listName="@list.Name">Edit</a>
+
+                                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@dialogueModel.Id">
+                                        <i class="fa-solid fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <partial name="_DeleteListConfirmModal" model=@dialogueModel/>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>There are currently no shopping lists.</p>
+    }
+}

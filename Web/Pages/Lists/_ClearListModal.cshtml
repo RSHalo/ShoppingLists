@@ -1,0 +1,28 @@
+﻿@model ClearListModel
+
+<div class="modal" tabindex="-1" id="clearListModal" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Clear @Model.ListName</h5>
+            </div>
+            <form asp-page-handler="Clear">
+                <div class="modal-body toggle-checkbox-container">
+                    <p class="toggle-checkbox-target hide-on-checked">Are you sure that you want to clear the @Model.ListName list? This will remove all items that are currently on the list.</p>
+                    <p class="toggle-checkbox-target d-none">Are you sure that you want to clear the @Model.ListName list? This will remove all picked items from the list.</p>
+
+                    <div class="form-check">
+                        <input class="form-check-input toggle-checkbox" type="checkbox" value="true" id="keepUnpickedItems" name="keepUnpickedItems">
+                        <label class="form-check-label" for="keepUnpickedItems">Do not remove unpicked items.</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <input type="hidden" name="listName" value="@Model.ListName" />
+                    <button type="submit" class="btn btn-danger">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

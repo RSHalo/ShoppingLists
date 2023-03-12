@@ -1,0 +1,28 @@
+﻿@model DeleteProductModel
+@{
+    <div class="delete-product-modal modal fade" id="@Model.Id" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure?</h5>
+                </div>
+
+                <div class="modal-body">
+                    <p>Delete <span class="product-placeholder"></span>?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">
+                        Yes, Delete
+                    </button>
+                </div>
+
+                <form asp-page-handler="DeleteProduct">
+                    <input type="hidden" name="productName" />
+                    <input type="hidden" name="shopName" value="@Model.ShopName" />
+                </form>
+            </div>
+        </div>
+    </div>
+}

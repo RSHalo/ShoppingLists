@@ -8,7 +8,7 @@ if (builder.Environment.IsDevelopment())
     mvcBuilder.AddRazorRuntimeCompilation();
 }
 
-builder.Services.AddDataAccessRepositories();
+builder.Services.AddDataAccess();
 
 var app = builder.Build();
 
@@ -28,5 +28,6 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.MapDefaultControllerRoute();
 
 app.Run();

@@ -1,18 +1,72 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+.accordion-striped .accordion-item:nth-of-type(2n+1) .accordion-button {
+    background-color: rgba(0,0,0,0.05);
+}
+
+#shopAccordion .all-products .product:nth-child(odd) {
+    background-color: #e7f1ff;
+}
+
+.list-product-viewer {
+    background-color: lightgrey;
+}
+
+    .list-product-viewer .checkbox-container {
+        padding: 5px;
+        background-color: white;
+    }
+
+        .list-product-viewer .checkbox-container:nth-child(odd) {
+            background-color: bisque;
+        }
+
+        .list-product-viewer .checkbox-container:hover {
+            cursor: pointer;
+            background-color: lightgray;
+        }
+
+        .list-product-viewer .checkbox-container[data-is-checked="true"] .item-off {
+            display: none;
+        }
+
+        .list-product-viewer .checkbox-container[data-is-checked="false"] .item-on {
+            display: none;
+        }
+
+    .list-product-viewer .checkbox-icons {
+        color: var(--bs-primary);
+    }
+
+    .list-item-viewer {
+        background-color: lightsteelblue;
+    }
+
+.shopping-mode-items .item:nth-child(odd) {
+    background-color: #ccc;
+}
+
+.shopping-mode-items.unpicked .item.picked {
+    display: none;
+}
+
+.shopping-mode-items.picked .item.unpicked {
+    display: none;
 }

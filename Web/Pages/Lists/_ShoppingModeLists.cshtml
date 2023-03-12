@@ -1,0 +1,23 @@
+﻿@model ShoppingModeModel
+
+<div class="mt-3">
+    <h3>Items to pick</h3>
+    <div class="shopping-mode-items unpicked">
+        <partial name="_ShoppingModeItems" model="Model.UnpickedItems" />
+        <form asp-page-handler="TogglePickStatus" class="d-none">
+            <input name="listName" value="@Model.List.Name" />
+            <input name="markAsPicked" value="true" />
+        </form>
+    </div>
+</div>
+
+<div class="mt-3">
+    <h3 mt-3>Picked items</h3>
+    <div class="shopping-mode-items picked">
+        <partial name="_ShoppingModeItems" model="Model.PickedItems" />
+        <form asp-page-handler="TogglePickStatus" class="d-none">
+            <input name="listName" value="@Model.List.Name" />
+            <input name="markAsPicked" value="false" />
+        </form>
+    </div>
+</div>

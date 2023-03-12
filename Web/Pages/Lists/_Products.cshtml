@@ -1,0 +1,19 @@
+﻿@model IndexModel
+@foreach (ItemModel item in Model.List.Items)
+{
+    string formId = $"toggleForm{item.Name}";
+    string isChecked = item.IsOn ? "true" : "false";
+
+    <div class="checkbox-container" data-is-checked="@isChecked" data-form="@formId" data-upper-name="@item.Name.ToUpperInvariant()">
+        <span class="checkbox-icons">
+            <i class="fa-regular fa-square item-off"></i>
+            <i class="fa-solid fa-square-check item-on"></i>
+        </span>
+        <span>@item.Name</span>
+
+        <form id="@formId" class="d-none" method="post" asp-page-handler="ToggleItem">
+            <input name="listName" value="@Model.List.Name" />
+            <input name="itemName" value="@item.Name" />
+        </form>
+    </div>
+}

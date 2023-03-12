@@ -1,0 +1,41 @@
+﻿@model RegisterProductModel
+<div class="modal register-product-modal" tabindex="-1" id="@Model.ModalId" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Register a new item</h5>
+            </div>
+            <div class="modal-body toggle-checkbox-container">
+                <p>Register a new item for shopping lists at @Model.ShopName.</p>
+
+                <div class="mb-3">
+                    <label for="@Model.NewNameInputId" class="form-label">Item name:</label>
+                    <input type="text" class="form-control" id="@Model.NewNameInputId" data-required-for="#@Model.SubmitButtonId">
+                </div>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input toggle-checkbox" type="checkbox" value="" id="@Model.AddToStartCheckboxId">
+                    <label class="form-check-label" for="@Model.AddToStartCheckboxId">
+                        Add item to the start of the list
+                    </label>
+                </div>
+
+                <div class="toggle-checkbox-target hide-on-checked">
+                    <label class="form-label">Insert the item after:</label>
+                    <select class="form-select product-options">
+                        <option>Loading items...</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="@Model.SubmitButtonId"
+                        data-shop-name="@Model.ShopName"
+                        data-url="@Url.Action(nameof(ShopsController.RegisterProduct), ShopsController.ControllerName)">
+                    Add
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

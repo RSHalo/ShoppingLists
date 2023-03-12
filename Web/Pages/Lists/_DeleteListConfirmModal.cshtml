@@ -1,0 +1,24 @@
+﻿@model DialogueModel<string>
+<div class="modal" id="@Model.Id" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Are you sure?</h5>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure that you want to delete the @Model.Data list?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                <form method="post">
+                    <button type="submit" class="btn btn-danger"
+                            asp-page-handler="DeleteList"
+                            asp-route-listName=@Model.Data>
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

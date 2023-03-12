@@ -1,0 +1,58 @@
+﻿@page
+@model IndexModel
+@{
+    if (Model.Shops.Any())
+    {
+        <h2>All Shops</h2>
+
+        <p>Click a shop to view all of it's registered products.</p>
+
+        <div class="accordion accordion-striped" id="shopAccordion">
+
+            @foreach (ShopModel shop in Model.Shops)
+            {
+                @* TODO: Move these to a model? *@
+                string headerId = $"{shop.Name}-header";
+                string bodyId = $"{shop.Name}-products";
+                string registerProductModalId = $"{shop.Name}-registerProductModal";
+
+                <div class="accordion-item shop-container">
+                    <h2 class="accordion-header" id="@headerId">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#@bodyId" aria-expanded="false" aria-controls="@bodyId">
+                            <i class="fa-solid fa-building pe-2"></i> @shop.Name
+                        </button>
+                    </h2>
+                    <div id="@bodyId" class="accordion-collapse collapse mt-2" aria-labelledby="@headerId" data-bs-parent="#shopAccordion">
+
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-primary content-loader mb-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#@registerProductModalId"
+                            data-load-url="@Url.Action(nameof(ShopsController.ProductOptions), ShopsController.ControllerName, new { shopName = shop.Name })"
+                            data-load-target="#@registerProductModalId .product-options">
+                                <i class="fa-solid fa-plus"></i> Register Product
+                            </button>
+                        </div>
+
+                        <div class="all-products"></div>
+                    </div>
+
+                    @* Register product modal *@
+                    <partial name="_RegisterProductModal" model="new RegisterProductModel { ShopName = shop.Name, ModalId = registerProductModalId }" />
+
+                    @* Hidden button to refresh the product list for the shop. Clicked via JS. *@
+                    @* TODO: Replace this with a JS Reloader? *@
+                    <button type="button" class="d-none content-loader refresh-products"
+                    data-load-url="@Url.Page("Index", "AllProducts", new { shopName = shop.Name })"
+                    data-load-target="#@bodyId .all-products">
+                    </button>
+                </div>
+            }
+
+        </div>
+    }
+    else
+    {
+        <p>There are no shops registered.</p>
+    }
+}
