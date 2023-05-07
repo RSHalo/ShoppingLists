@@ -40,30 +40,31 @@ namespace ShoppingList.Data.InMemory.Shops
             throw new Exception("No shop.");
         }
 
-        public Task<bool> RegisterProductAsync(string shopName, string newProductName, string nextProductName)
+        public Task<bool> AddProductAsync(string shopName, IProductEntity newProduct)
         {
-            if (_productsByShop.ContainsKey(shopName) == false || newProductName == null)
+            _productsByShop[shopName].Add(newProduct);
+            return Task.FromResult(true);
+        }
+
+        public Task<bool> RemoveProductAsync(string shopName, IProductEntity toRemove)
+        {
+            if (_productsByShop.ContainsKey(shopName) == false || toRemove == null)
             {
                 return Task.FromResult(false);
             }
 
-            List<IProductEntity> existingProducts = _productsByShop[shopName];
-            ProductEntity newProduct = CreateProductToRegister(newProductName, nextProductName, existingProducts);
-            _productsByShop[shopName].Add(newProduct);
+            _productsByShop[shopName].Remove(toRemove);
 
             return Task.FromResult(true);
         }
 
-        public Task<bool> RemoveProductAsync(string shopName, string productName)
+        public Task<bool> UpdateProductAsync(string shopName, string productName, IProductEntity productData)
         {
-            if (_productsByShop.ContainsKey(shopName) == false || productName == null)
-            {
-                return Task.FromResult(false);
-            }
+            IProductEntity product = _productsByShop[shopName].Single(product => product.Name == productName);
+            product.Next = productData.Next;
+            product.IsFirst = productData.IsFirst;
 
-            List<IProductEntity> existingProducts = _productsByShop[shopName];
-            bool result = RemoveProduct(shopName, existingProducts.InShopOrder(), productName);
-            return Task.FromResult(result);
+            return Task.FromResult(true);
         }
 
         private void InitializeProducts()
@@ -115,106 +116,6 @@ namespace ShoppingList.Data.InMemory.Shops
             };
 
             _productsByShop.Add(ShopNames.ALDI, products);
-        }
-
-        private ProductEntity CreateProductToRegister(string newProductName, string nextProductName, IList<IProductEntity> existingProducts)
-        {
-            if (string.IsNullOrWhiteSpace(nextProductName))
-            {
-                // The new product is the last item in the list. The current last item must point to the new item.
-                IProductEntity lastItem = existingProducts.Single(product => product.Next == null);
-                lastItem.Next = newProductName;
-
-                return new ProductEntity(newProductName);
-            }
-            else
-            {
-                bool isFirst = false;
-                // previousProduct needs to point to the new product.
-                ProductEntity previousProduct = null;
-                // The new product needs to point to nextProduct.
-                ProductEntity nextProduct = null;
-
-                foreach (ProductEntity existingProduct in existingProducts)
-                {
-                    if (existingProduct.Name == nextProductName)
-                    {
-                        nextProduct = existingProduct;
-                    }
-                    else if (existingProduct.Next == nextProductName)
-                    {
-                        previousProduct = existingProduct;
-                    }
-                }
-
-                if (previousProduct != null)
-                {
-                    previousProduct.Next = newProductName;
-                }
-                else
-                {
-                    // Nothing currently points to nextProduct, which means that the new product is being inserted at the start.
-                    isFirst = true;
-                }
-
-                return new ProductEntity(newProductName)
-                {
-                    IsFirst = isFirst,
-                    Next = nextProduct.Name
-                };
-            }
-        }
-
-        private bool RemoveProduct(string shopName, IList<IProductEntity> existingProducts, string productToRemove)
-        {
-            IProductEntity previousProduct = null;
-            IProductEntity toRemove = null;
-            IProductEntity nextProduct = null;
-
-            foreach (IProductEntity product in existingProducts)
-            {
-                if (toRemove != null)
-                {
-                    // We have found the product to remove, and the product it points to. We can exit the iteration.
-                    nextProduct = product;
-                    break;
-                }
-
-                if (product.Name == productToRemove)
-                {
-                    toRemove = product;
-                }
-                else
-                {
-                    previousProduct = product;
-                }
-            }
-
-            if (toRemove != null)
-            {
-                existingProducts.Remove(toRemove);
-
-                if (toRemove.IsFirst)
-                {
-                    // nextProduct will be null if toRemove was the only product in the list.
-                    if (nextProduct != null)
-                    {
-                        nextProduct.IsFirst = true;
-                    }
-                }
-
-                // If the previous product was pointing to the removed product, update the previous product's pointer.
-                // toRemove.Next could be null if toRemove was the last product in the shop.
-                if (previousProduct != null)
-                {
-                    previousProduct.Next = toRemove.Next;
-                }
-
-                _productsByShop[shopName] = existingProducts.ToList();
-                return true;
-            }
-
-            return false;
         }
     }
 }

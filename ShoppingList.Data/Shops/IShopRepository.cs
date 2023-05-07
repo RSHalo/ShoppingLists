@@ -22,18 +22,26 @@ namespace ShoppingList.Data.Shops
         Task<IList<IProductEntity>> AllProductsForShop(string shopName);
 
         /// <summary>
-        /// Registers a product with a shop.
+        /// Adds a product to a shop.
         /// </summary>
         /// <param name="shopName">The name of the shop.</param>
-        /// <param name="newProductName">The new product to register.</param>
-        /// <param name="nextProductName">The next product in order. Null if <paramref name="newProductName"/> should be the last item in the shop.</param>
-        Task<bool> RegisterProductAsync(string shopName, string newProductName, string nextProductName);
+        /// <param name="newProduct">The new product to add.</param>
+        /// <returns></returns>
+        Task<bool> AddProductAsync(string shopName, IProductEntity newProduct);
 
         /// <summary>
         /// Removes a product from a shop.
         /// </summary>
         /// <param name="shopName">The name of the shop.</param>
-        /// <param name="productName">The name of the product to remove.</param>
-        Task<bool> RemoveProductAsync(string shopName, string productName);
+        /// <param name="toRemove">The product to remove.</param>
+        Task<bool> RemoveProductAsync(string shopName, IProductEntity toRemove);
+
+        /// <summary>
+        /// Updates a product.
+        /// </summary>
+        /// <param name="shopName">The name of the shop.</param>
+        /// <param name="productName">The product to update.</param>
+        /// <param name="productData">The new product data.</param>
+        Task<bool> UpdateProductAsync(string shopName, string productName, IProductEntity productData);
     }
 }

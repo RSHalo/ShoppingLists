@@ -1,4 +1,4 @@
-﻿namespace ShoppingList.Core
+﻿namespace ShoppingList.Core.Products
 {
     /// <summary>
     /// Maintains products in shops.

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShoppingList.Core;
+using ShoppingList.Core.Products;
 using ShoppingList.Data.Products;
 using ShoppingList.Data.Shops;
 using ShoppingList.Web.Helper;
