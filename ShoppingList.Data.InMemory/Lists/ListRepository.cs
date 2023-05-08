@@ -41,9 +41,9 @@ namespace ShoppingList.Data.InMemory.Lists
             };
         }
 
-        public Task<IEnumerable<IListEntity>> AllListsAsync()
+        public Task<IList<IListEntity>> AllListsAsync()
         {
-            IEnumerable<IListEntity> lists = _lists.AsEnumerable();
+            IList<IListEntity> lists = _lists;
             return Task.FromResult(lists);
         }
 

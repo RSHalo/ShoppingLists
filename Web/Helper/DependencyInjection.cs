@@ -12,19 +12,17 @@ namespace ShoppingList.Web.Helper
     {
         public static void AddDataAccess(this IServiceCollection services)
         {
-            bool useAzureStorage = false;
+            bool useAzureStorage = true;
             if (useAzureStorage)
             {
                 services.AddAzureDataAccess();
             }
             else
             {
+                services.AddSingleton<IListRepository, ListRepository>();
                 services.AddSingleton<IShopRepository, ShopRepository>();
                 services.AddSingleton<IProductMaintainer, ProductMaintainer>();
             }
-
-            services.AddSingleton<IListRepository, ListRepository>();
-
         }
     }
 }

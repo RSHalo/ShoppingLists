@@ -7,12 +7,9 @@ namespace ShoppingList.Data.InMemory.Products
 {
     public class ProductMaintainer : ProductMaintainerBase
     {
-        private readonly IListRepository _listRepository;
-
         public ProductMaintainer(IShopRepository shopRepository, IListRepository listRepository)
-            : base(shopRepository)
+            : base(shopRepository, listRepository)
         {
-            _listRepository = listRepository;
         }
 
         public override async Task<bool> RegisterProductAsync(string shopName, string newProductName, string nextProductName)
@@ -26,20 +23,14 @@ namespace ShoppingList.Data.InMemory.Products
             return success;
         }
 
-        public override async Task<bool> RemoveProductAsync(string shopName, string productName)
+        protected override Task OnProductRemovedAsync(string shopName, string productName)
         {
-            bool success = await base.RemoveProductAsync(shopName, productName);
-            if (success)
-            {
-                await UpdateProductsForShopLists(shopName);
-            }
-
-            return success;
+            return UpdateProductsForShopLists(shopName);
         }
 
         private async Task UpdateProductsForShopLists(string shopName)
         {
-            IList<IProductEntity> products = await ShopRepository.AllProductsForShop(shopName);
+            IList<IProductEntity> products = await _shopRepository.AllProductsForShop(shopName);
 
             IList<IListEntity> listsToUpdate = await _listRepository.AllListsForShop(shopName);
             foreach (IListEntity list in listsToUpdate)

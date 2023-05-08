@@ -29,7 +29,7 @@ namespace ShoppingList.Data.Azure.Products
 
         public Task<IList<IProductEntity>> AllForShopAsync(string shopName)
         {
-            return AllInPartition(shopName);
+            return AllInPartitionAsync(shopName);
         }
 
         public async Task<bool> UpdateAsync(string shopName, string productName, IProductEntity productData)

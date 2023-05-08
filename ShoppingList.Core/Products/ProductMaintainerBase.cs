@@ -1,18 +1,19 @@
-﻿using ShoppingList.Data.Products;
+﻿using ShoppingList.Data.Lists;
+using ShoppingList.Data.Products;
 using ShoppingList.Data.Shops;
 
 namespace ShoppingList.Core.Products
 {
     public abstract class ProductMaintainerBase : IProductMaintainer 
     {
-        private readonly IShopRepository _shopRepository;
+        protected readonly IShopRepository _shopRepository;
+        protected readonly IListRepository _listRepository;
 
-        public ProductMaintainerBase(IShopRepository shopRepository)
+        public ProductMaintainerBase(IShopRepository shopRepository, IListRepository listRepository)
         {
             _shopRepository = shopRepository;
+            _listRepository = listRepository;
         }
-
-        protected IShopRepository ShopRepository => _shopRepository;
 
         public virtual async Task<bool> RegisterProductAsync(string shopName, string newProductName, string nextProductName)
         {
@@ -26,8 +27,16 @@ namespace ShoppingList.Core.Products
         public virtual async Task<bool> RemoveProductAsync(string shopName, string productName)
         {
             IList<IProductEntity> existingProducts = await _shopRepository.AllProductsForShop(shopName);
-            return await RemoveProductAsync(shopName, existingProducts, productName);
+            bool success = await RemoveProductAsync(shopName, existingProducts, productName);
+            if (success)
+            {
+                await OnProductRemovedAsync(shopName, productName);
+            }
+
+            return success;
         }
+
+        protected abstract Task OnProductRemovedAsync(string shopName, string productName);
 
         private async Task<ProductDto> CreateProductToRegisterAsync(string shopName, string newProductName, string nextProductName, IList<IProductEntity> existingProducts)
         {
