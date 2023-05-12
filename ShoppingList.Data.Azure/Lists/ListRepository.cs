@@ -1,202 +1,113 @@
-﻿using ShoppingList.Data.InMemory.Shops;
+﻿using ShoppingList.Core.Helper;
+using ShoppingList.Data.Azure.Products;
 using ShoppingList.Data.Lists;
 using ShoppingList.Data.Products;
-using ShoppingList.Data.Shops;
 
-namespace ShoppingList.Data.InMemory.Lists
+namespace ShoppingList.Data.Azure.Lists
 {
-    public class ListRepository : IListRepository
+    internal class ListRepository : Repository<IListEntity, ListEntity>, IListRepository
     {
-        private readonly List<IListEntity> _lists;
-        private readonly IShopRepository _shopRepository;
+        private const string PartitionKey = "lists";
 
-        public ListRepository(IShopRepository shopRepository)
+        private readonly IProductRepository _productRepository;
+        private readonly IItemRepository _itemRepository;
+
+        public ListRepository(IProductRepository productRepository, IItemRepository itemRepository) : base("Lists")
         {
-            _shopRepository = shopRepository;
-
-            ListEntity list1 = new ListEntity
-            {
-                ShopName = ShopNames.ALDI,
-                Name = "ALDI List",
-                Items = _shopRepository.AllProductsForShop(ShopNames.ALDI).Result.Select(p => new ItemEntity(p)).ToList<IItemEntity>()
-            };
-            ToggleItem(list1, ProductNames.Bananas, true);
-            ToggleItem(list1, ProductNames.Apples, true);
-            ToggleItem(list1, ProductNames.Onions, true);
-            ToggleItem(list1, ProductNames.Yoghurt, true);
-
-            ListEntity list2 = new ListEntity
-            {
-                ShopName = ShopNames.Sainsburys,
-                Name = "Berrys List",
-                Items = _shopRepository.AllProductsForShop(ShopNames.Sainsburys).Result.Select(p => new ItemEntity(p)).ToList<IItemEntity>()
-            };
-            ToggleItem(list2, ProductNames.Crisps, true);
-            ToggleItem(list2, ProductNames.QuornNuggets, true);
-            ToggleItem(list2, ProductNames.Sausages, true);
-
-            _lists = new List<IListEntity>
-            {
-                list1, list2
-            };
+            _productRepository = productRepository;
+            _itemRepository = itemRepository;
         }
 
-        public Task<IEnumerable<IListEntity>> AllListsAsync()
+        public async Task<IListEntity> FindListAsync(string name)
         {
-            IEnumerable<IListEntity> lists = _lists.AsEnumerable();
-            return Task.FromResult(lists);
-        }
-
-        public Task<IListEntity> FindListAsync(string name)
-        {
-            IListEntity list = _lists.FirstOrDefault(list => list.Name == name);
-            return Task.FromResult(list);
-        }
-
-        public Task<IList<IListEntity>> AllListsForShop(string shopName)
-        {
-            IList<IListEntity> lists = _lists.Where(list => list.ShopName == shopName).ToList();
-            return Task.FromResult(lists);
-        }
-
-        public async Task<bool> UpdateShopProducts(string listName, IList<IProductEntity> allShopProducts)
-        {
-            ListEntity list = await FindListAsync(listName) as ListEntity;
-            if (list != null)
+            IListEntity list = await FindAsync(PartitionKey, name);
+            if (list == null)
             {
-                // Key the old items by name.
-                Dictionary<string, IItemEntity> oldItems = list.Items.ToDictionary(item => item.Name, item => item);
-
-                // Register the new items with the list.
-                list.Items = allShopProducts.Select(p => new ItemEntity(p)).ToList<IItemEntity>();
-
-                // Re-apply the IsOn and IsPicked states to the new items.
-                foreach (IItemEntity item in list.Items)
-                {
-                    if (oldItems.TryGetValue(item.Name, out IItemEntity oldItem))
-                    {
-                        item.IsOn = oldItem.IsOn;
-                        item.IsPicked = oldItem.IsPicked;
-                    }
-                }
+                return null;
             }
 
-            return true;
-        }
+            IList<IProductEntity> products = await _productRepository.AllForShopAsync(list.ShopName);
+            IList<IItemEntity> listItems = await _itemRepository.AllInListAsync(name);
 
-        public Task<bool> AddListAsync(string name, string shopName)
-        {
-            ListEntity newList = new ListEntity
+            foreach (IProductEntity product in products.InShopOrder())
             {
-                Name = name,
-                ShopName = shopName,
-                Items = _shopRepository.AllProductsForShop(shopName).Result.Select(p => new ItemEntity(p)).ToList<IItemEntity>()
-            };
-            
-            _lists.Add(newList);
-            return Task.FromResult(true);
-        }
+                IItemEntity item = listItems.FirstOrDefault(item => item.Name == product.Name);
+                if (item == null)
+                {
+                    item = new ItemEntity
+                    {
+                        Name = product.Name,
+                        ListName = name
+                    };
+                }
+                else
+                {
+                    // The item is in the ListItems Azure table, which means the item is on the list.
+                    item.IsOn = true;
+                }
 
-        public Task<bool> DeleteListAsync(string name)
-        {
-            IListEntity list = _lists.FirstOrDefault(list => list.Name == name);
-            _lists.Remove(list);
+                // Attach the product information.
+                item.Next = product.Next;
+                item.IsFirst = product.IsFirst;
 
-            return Task.FromResult(true);
+                list.Items.Add(item);
+            }
+
+            return list;
         }
 
         public Task<bool> AddItemAsync(string listName, string itemName)
         {
-            bool result = ToggleItem(listName, itemName, true);
-            return Task.FromResult(result);
+            return _itemRepository.AddAsync(listName, itemName);
         }
 
-        public Task<bool> RemoveItemAsync(string listName, string itemName)
+        public Task<bool> AddListAsync(string name, string shopName)
         {
-            bool result = ToggleItem(listName, itemName, false);
-            return Task.FromResult(result);
+            ListEntity list = new ListEntity
+            {
+                PartitionKey = PartitionKey,
+                RowKey = name,
+                ShopName = shopName
+            };
+
+            return AddEntityAsync(list);
+        }
+
+        public async Task<IList<string>> AllListsNamesAsync()
+        {
+            IList<IListEntity> lists = await AllAsync();
+            return lists.Select(list => list.Name).ToList();
+        }
+
+        public Task<bool> ClearAsync(string listName, bool keepUnpickedItems)
+        {
+            return _itemRepository.DeleteAllInListAsync(listName, keepUnpickedItems);
+        }
+
+        public Task<bool> DeleteListAsync(string name)
+        {
+            return DeleteEntityAsync(PartitionKey, name);
         }
 
         public Task<bool> PickItemAsync(string listName, string itemName)
         {
-            bool result = TogglePickStatus(listName, itemName, true);
-            return Task.FromResult(result);
+            return _itemRepository.PickAsync(listName, itemName);
+        }
+
+        public Task<bool> RemoveItemAsync(string listName, string itemName)
+        {
+            return _itemRepository.DeleteAsync(listName, itemName);
         }
 
         public Task<bool> UnpickItemAsync(string listName, string itemName)
         {
-            bool result = TogglePickStatus(listName, itemName, false);
-            return Task.FromResult(result);
+            return _itemRepository.UnpickAsync(listName, itemName);
         }
 
-        public async Task<bool> ClearAsync(string listName, bool keepUnpickedItems)
+        public async Task<IList<string>> ListNamesForShopAsync(string shopName)
         {
-            IListEntity list = await FindListAsync(listName);
-            if (list == null)
-            {
-                return false;
-            }
-
-            foreach (IItemEntity item in list.Items)
-            {
-                if (item.IsPicked || keepUnpickedItems == false)
-                {
-                    item.IsOn = false;
-                    item.IsPicked = false;
-                }
-            }
-
-            return true;
-        }
-
-        private bool ToggleItem(string listName, string itemName, bool includeInList)
-        {
-            IListEntity list = _lists.FirstOrDefault(list => list.Name == listName);
-            if (list != null)
-            {
-                return ToggleItem(list, itemName, includeInList);
-            }
-
-            return false;
-        }
-
-        private static bool ToggleItem(IListEntity list, string itemName, bool includeInList)
-        {
-            foreach (IItemEntity item in list.Items)
-            {
-                if (item.Name == itemName)
-                {
-                    item.IsOn = includeInList;
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private bool TogglePickStatus(string listName, string itemName, bool markAsPicked)
-        {
-            IListEntity list = _lists.FirstOrDefault(list => list.Name == listName);
-            if (list != null)
-            {
-                return ToggleItemPickStatus(list, itemName, markAsPicked);
-            }
-
-            return false;
-        }
-
-        private static bool ToggleItemPickStatus(IListEntity list, string itemName, bool markAsPicked)
-        {
-            foreach (IItemEntity item in list.Items)
-            {
-                if (item.Name == itemName)
-                {
-                    item.IsPicked = markAsPicked;
-                    return true;
-                }
-            }
-
-            return false;
+            IList<IListEntity> lists = await QueryAsync($"ShopName eq '{shopName}'");
+            return lists.Select(list => list.Name).ToList();
         }
     }
 }

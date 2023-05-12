@@ -1,13 +1,16 @@
 ﻿using ShoppingList.Data.Lists;
+using System.Runtime.Serialization;
 
-namespace ShoppingList.Data.InMemory.Lists
+namespace ShoppingList.Data.Azure.Lists
 {
-    internal class ListEntity : IListEntity
+    internal class ListEntity : BaseTableEntity, IListEntity
     {
+        [IgnoreDataMember]
+        public string Name => RowKey;
+
         public string ShopName { get; set; }
 
-        public string Name { get; set; }
-
+        [IgnoreDataMember]
         public IList<IItemEntity> Items { get; set; } = new List<IItemEntity>();
     }
 }

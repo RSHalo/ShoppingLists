@@ -1,12 +1,12 @@
-﻿using ShoppingList.Data.Lists;
+﻿using ShoppingList.Data.Products;
 using System.Runtime.Serialization;
 
-namespace ShoppingList.Data.Azure.Lists
+namespace ShoppingList.Data.Azure.Products
 {
-    internal class ItemEntity : BaseTableEntity, IItemEntity
+    internal class ProductEntity : BaseTableEntity, IProductEntity
     {
         [IgnoreDataMember]
-        public string ListName
+        public string ShopName
         {
             get => PartitionKey;
             set => PartitionKey = value;
@@ -19,15 +19,8 @@ namespace ShoppingList.Data.Azure.Lists
             set => RowKey = value;
         }
 
-        public bool IsPicked { get; set; }
-
-        [IgnoreDataMember]
-        public bool IsOn { get; set; }
-
-        [IgnoreDataMember]
         public string Next { get; set; }
 
-        [IgnoreDataMember]
         public bool IsFirst { get; set; }
     }
 }

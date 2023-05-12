@@ -20,14 +20,14 @@ namespace ShoppingList.Web.Pages.Lists
             Title = "All Lists";
         }
 
-        public IList<ListModel> Lists { get; set; }
+        public IList<string> ListNames { get; set; }
 
         public IList<ShopModel> Shops { get; set; }
 
         public async Task<IActionResult> OnGet()
         {
-            IEnumerable<IListEntity> lists = await _listRepository.AllListsAsync();
-            Lists = lists.Select(ModelMapper.ToListModel).ToList();
+            IEnumerable<string> lists = await _listRepository.AllListsNamesAsync();
+            ListNames = lists.ToList();
 
             IList<IShopEntity> shops = await _shopRepository.AllShopsAsync();
             Shops = shops.Select(ModelMapper.ToShopModel).ToList();

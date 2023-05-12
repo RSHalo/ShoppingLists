@@ -1,9 +1,15 @@
 ﻿using ShoppingList.Data.Shops;
+using System.Runtime.Serialization;
 
-namespace ShoppingList.Data.InMemory.Shops
+namespace ShoppingList.Data.Azure.Shops
 {
-    internal class ShopEntity : IShopEntity
+    public class ShopEntity : BaseTableEntity, IShopEntity
     {
-        public string Name { get; set; }
+        [IgnoreDataMember]
+        public string Name
+        {
+            get => RowKey;
+            set => RowKey = value;
+        }
     }
 }
