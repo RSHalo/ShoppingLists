@@ -4,13 +4,11 @@ namespace ShoppingList.Data.Lists
 {
     public interface IListRepository
     {
-        Task<IList<IListEntity>> AllListsAsync();
+        Task<IList<string>> AllListsNamesAsync();
 
         Task<IListEntity> FindListAsync(string name);
 
-        Task<IList<IListEntity>> AllListsForShop(string shopName);
-
-        Task<bool> UpdateShopProducts(string listName, IList<IProductEntity> allShopProducts);
+        Task<IList<string>> ListNamesForShopAsync(string shopName);
 
         Task<bool> AddListAsync(string name, string shopName);
 

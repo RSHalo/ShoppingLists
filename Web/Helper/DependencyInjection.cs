@@ -1,7 +1,6 @@
 ﻿using ShoppingList.Core.Products;
 using ShoppingList.Data.Azure;
 using ShoppingList.Data.InMemory.Lists;
-using ShoppingList.Data.InMemory.Products;
 using ShoppingList.Data.InMemory.Shops;
 using ShoppingList.Data.Lists;
 using ShoppingList.Data.Shops;
@@ -12,6 +11,8 @@ namespace ShoppingList.Web.Helper
     {
         public static void AddDataAccess(this IServiceCollection services)
         {
+            services.AddSingleton<IProductMaintainer, ProductMaintainer>();
+
             bool useAzureStorage = true;
             if (useAzureStorage)
             {
@@ -21,7 +22,6 @@ namespace ShoppingList.Web.Helper
             {
                 services.AddSingleton<IListRepository, ListRepository>();
                 services.AddSingleton<IShopRepository, ShopRepository>();
-                services.AddSingleton<IProductMaintainer, ProductMaintainer>();
             }
         }
     }

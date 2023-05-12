@@ -4,10 +4,16 @@ namespace ShoppingList.Data.InMemory.Lists
 {
     internal class ListEntity : IListEntity
     {
-        public string ShopName { get; set; }
+        public ListEntity(string name, string shopName)
+        {
+            Name = name;
+            ShopName = shopName;
+        }
 
-        public string Name { get; set; }
+        public string Name { get; }
 
-        public IList<IItemEntity> Items { get; set; } = new List<IItemEntity>();
+        public string ShopName { get; }
+
+        public IList<IItemEntity> Items { get; set; }
     }
 }

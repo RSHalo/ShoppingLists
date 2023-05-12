@@ -4,18 +4,18 @@ using ShoppingList.Data.Shops;
 
 namespace ShoppingList.Core.Products
 {
-    public abstract class ProductMaintainerBase : IProductMaintainer 
+    public class ProductMaintainer : IProductMaintainer
     {
         protected readonly IShopRepository _shopRepository;
         protected readonly IListRepository _listRepository;
 
-        public ProductMaintainerBase(IShopRepository shopRepository, IListRepository listRepository)
+        public ProductMaintainer(IShopRepository shopRepository, IListRepository listRepository)
         {
             _shopRepository = shopRepository;
             _listRepository = listRepository;
         }
 
-        public virtual async Task<bool> RegisterProductAsync(string shopName, string newProductName, string nextProductName)
+        public async Task<bool> RegisterProductAsync(string shopName, string newProductName, string nextProductName)
         {
             IList<IProductEntity> existingProducts = await _shopRepository.AllProductsForShop(shopName);
             IProductEntity newProduct = await CreateProductToRegisterAsync(shopName, newProductName, nextProductName, existingProducts);
@@ -24,19 +24,27 @@ namespace ShoppingList.Core.Products
             return success;
         }
 
-        public virtual async Task<bool> RemoveProductAsync(string shopName, string productName)
+        public async Task<bool> RemoveProductAsync(string shopName, string productName)
         {
             IList<IProductEntity> existingProducts = await _shopRepository.AllProductsForShop(shopName);
             bool success = await RemoveProductAsync(shopName, existingProducts, productName);
             if (success)
             {
-                await OnProductRemovedAsync(shopName, productName);
+                // Ensure any corresponding list items are deleted from the shop's lists.
+                await RemoveProductFromListsAsync(shopName, productName);
             }
 
             return success;
         }
 
-        protected abstract Task OnProductRemovedAsync(string shopName, string productName);
+        private async Task RemoveProductFromListsAsync(string shopName, string productName)
+        {
+            IList<string> lists = await _listRepository.ListNamesForShopAsync(shopName);
+            foreach (string list in lists)
+            {
+                await _listRepository.RemoveItemAsync(list, productName);
+            }
+        }
 
         private async Task<ProductDto> CreateProductToRegisterAsync(string shopName, string newProductName, string nextProductName, IList<IProductEntity> existingProducts)
         {

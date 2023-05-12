@@ -1,33 +1,22 @@
 ﻿using ShoppingList.Data.Lists;
-using ShoppingList.Data.Products;
 
 namespace ShoppingList.Data.InMemory.Lists
 {
     internal class ItemEntity : IItemEntity
     {
-        private readonly IProductEntity _product;
-
-        public ItemEntity(IProductEntity product)
+        public ItemEntity(string name)
         {
-            _product = product;
+            Name = name;
         }
 
-        public string Name => _product.Name;
+        public string Name { get; }
 
-        public string Next
-        {
-            get => _product.Next;
-            set => _product.Next = value;
-        }
+        public string Next { get; set; }
 
-        public bool IsFirst
-        {
-            get => _product.IsFirst;
-            set => _product.IsFirst = value;
-        }
-
-        public bool IsPicked { get; set; }
+        public bool IsFirst { get; set; }
 
         public bool IsOn { get; set; }
+
+        public bool IsPicked { get; set; }
     }
 }

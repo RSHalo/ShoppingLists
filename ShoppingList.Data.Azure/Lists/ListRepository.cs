@@ -73,9 +73,10 @@ namespace ShoppingList.Data.Azure.Lists
             return AddEntityAsync(list);
         }
 
-        public Task<IList<IListEntity>> AllListsAsync()
+        public async Task<IList<string>> AllListsNamesAsync()
         {
-            return AllAsync();
+            IList<IListEntity> lists = await AllAsync();
+            return lists.Select(list => list.Name).ToList();
         }
 
         public Task<bool> ClearAsync(string listName, bool keepUnpickedItems)
@@ -103,14 +104,10 @@ namespace ShoppingList.Data.Azure.Lists
             return _itemRepository.UnpickAsync(listName, itemName);
         }
 
-        public Task<IList<IListEntity>> AllListsForShop(string shopName)
+        public async Task<IList<string>> ListNamesForShopAsync(string shopName)
         {
-            return QueryAsync($"ShopName eq '{shopName}'");
-        }
-
-        public Task<bool> UpdateShopProducts(string listName, IList<IProductEntity> allShopProducts)
-        {
-            throw new NotImplementedException();
+            IList<IListEntity> lists = await QueryAsync($"ShopName eq '{shopName}'");
+            return lists.Select(list => list.Name).ToList();
         }
     }
 }

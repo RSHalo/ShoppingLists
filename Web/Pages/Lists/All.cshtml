@@ -10,7 +10,7 @@
         <partial name="_AddListModal" model="Model.Shops" />
     </div>
 
-    if (Model.Lists.Any())
+    if (Model.ListNames.Any())
     {
         <h2>All Shopping Lists</h2>
 
@@ -22,16 +22,16 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (ListModel list in Model.Lists)
+                @foreach (string listName in Model.ListNames)
                 {
-                    DialogueModel<string> dialogueModel = new DialogueModel<string>(list.Name);
+                    DialogueModel<string> dialogueModel = new DialogueModel<string>(listName);
 
                     <tr>
-                        <td>@list.Name</td>
+                        <td>@listName</td>
                         <td>
                             <div class="d-flex justify-content-end">
                                 <div class="btn-group">
-                                    <a class="btn btn-primary" asp-page="/Lists/Index" asp-route-listName="@list.Name">Edit</a>
+                                    <a class="btn btn-primary" asp-page="/Lists/Index" asp-route-listName="@listName">Edit</a>
 
                                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@dialogueModel.Id">
                                         <i class="fa-solid fa-trash"></i> Delete

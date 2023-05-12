@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using ShoppingList.Core.Products;
 using ShoppingList.Data.Azure.Lists;
 using ShoppingList.Data.Azure.Products;
 using ShoppingList.Data.Azure.Shops;
@@ -16,7 +15,6 @@ namespace ShoppingList.Data.Azure
             services.AddSingleton<IItemRepository, ItemRepository>();
             services.AddSingleton<IListRepository, ListRepository>();
             services.AddSingleton<IShopRepository, ShopRepository>();
-            services.AddSingleton<IProductMaintainer, ProductMaintainer>();
         }
     }
 }
