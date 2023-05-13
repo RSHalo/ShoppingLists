@@ -27,6 +27,7 @@ body {
 
 #shopAccordion .register-product-button {
     font-size: 1.5rem;
+    padding: 0.75rem;
 }
 
 .accordion-button {
@@ -34,7 +35,7 @@ body {
 }
 
 .all-products .product {
-    font-size: 2rem;
+    font-size: 1.75rem;
 }
 
 .all-products .product button{
