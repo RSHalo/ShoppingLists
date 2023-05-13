@@ -17,6 +17,10 @@ body {
     margin-bottom: 60px;
 }
 
+header nav {
+    border-bottom: 2px solid grey;
+}
+
 .accordion-striped .accordion-item:nth-of-type(2n+1) .accordion-button {
     background-color: rgba(0,0,0,0.05);
 }
@@ -25,25 +29,8 @@ body {
     background-color: #e7f1ff;
 }
 
-#shopAccordion .register-product-button {
-    font-size: 1.5rem;
-    padding: 0.75rem;
-}
-
-.accordion-button {
-    font-size: 1.5rem;
-}
-
-.all-products .product {
-    font-size: 1.75rem;
-}
-
-.all-products .product button{
-    font-size: 1.75rem;
-}
-
 .list-product-viewer {
-    background-color: lightgrey;
+    border: 2px solid grey;
 }
 
     .list-product-viewer .checkbox-container {
