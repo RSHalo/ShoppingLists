@@ -25,6 +25,22 @@ body {
     background-color: #e7f1ff;
 }
 
+#shopAccordion .register-product-button {
+    font-size: 1.5rem;
+}
+
+.accordion-button {
+    font-size: 1.5rem;
+}
+
+.all-products .product {
+    font-size: 2rem;
+}
+
+.all-products .product button{
+    font-size: 1.75rem;
+}
+
 .list-product-viewer {
     background-color: lightgrey;
 }
