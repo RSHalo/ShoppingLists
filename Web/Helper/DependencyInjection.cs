@@ -1,4 +1,5 @@
-﻿using ShoppingList.Core.Products;
+﻿using ShoppingList.Core;
+using ShoppingList.Core.Products;
 using ShoppingList.Data.Azure;
 using ShoppingList.Data.InMemory.Lists;
 using ShoppingList.Data.InMemory.Shops;
@@ -9,12 +10,11 @@ namespace ShoppingList.Web.Helper
 {
     public static class DependencyInjection
     {
-        public static void AddDataAccess(this IServiceCollection services)
+        public static void AddDataAccess(this IServiceCollection services, IDataStoreOptions dataStoreOptions)
         {
-            services.AddSingleton<IProductMaintainer, ProductMaintainer>();
+            services.AddSingleton<IProductMaintainer, ProductMaintainer>(); 
 
-            bool useAzureStorage = true;
-            if (useAzureStorage)
+            if (dataStoreOptions.Type == "Azure")
             {
                 services.AddAzureDataAccess();
             }

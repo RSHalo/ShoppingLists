@@ -1,17 +1,17 @@
 ﻿using Azure;
 using Azure.Data.Tables;
+using ShoppingList.Core;
 
 namespace ShoppingList.Data.Azure
 {
     internal class Repository<TEntityInterface, TEntity>
         where TEntity : class, TEntityInterface, ITableEntity
     {
-        private readonly string _connectionString = @"AccountName=shoppinglistdev;AccountKey=Cprma55OlUVF1sly6I8ShyhGrScBivhWueTclrqEKp9WaKFzhVC6YND4hjiUNJkiQFhaDsbC+3Kl+AStsIkjZQ==;EndpointSuffix=core.windows.net;DefaultEndpointsProtocol=https;";
         private readonly TableClient _tableClient;
 
-        public Repository(string tableName)
+        public Repository(string tableName, IDataStoreOptions dataStoreOptions)
         {
-            _tableClient = new TableClient(_connectionString, tableName);
+            _tableClient = new TableClient(dataStoreOptions.AzureStorageConnectionString, tableName);
         }
 
         protected TableClient TableClient => _tableClient;

@@ -1,4 +1,5 @@
-﻿using ShoppingList.Core.Helper;
+﻿using ShoppingList.Core;
+using ShoppingList.Core.Helper;
 using ShoppingList.Data.Azure.Products;
 using ShoppingList.Data.Lists;
 using ShoppingList.Data.Products;
@@ -12,7 +13,8 @@ namespace ShoppingList.Data.Azure.Lists
         private readonly IProductRepository _productRepository;
         private readonly IItemRepository _itemRepository;
 
-        public ListRepository(IProductRepository productRepository, IItemRepository itemRepository) : base("Lists")
+        public ListRepository(IProductRepository productRepository, IItemRepository itemRepository, IDataStoreOptions dataStoreOptions)
+            : base("Lists", dataStoreOptions)
         {
             _productRepository = productRepository;
             _itemRepository = itemRepository;
