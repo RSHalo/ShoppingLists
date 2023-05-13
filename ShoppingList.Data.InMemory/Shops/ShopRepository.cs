@@ -30,7 +30,7 @@ namespace ShoppingList.Data.InMemory.Shops
             return Task.FromResult(_shops);
         }
 
-        public Task<IList<IProductEntity>> AllProductsForShop(string shopName)
+        public Task<IList<IProductEntity>> AllProductsForShopAsync(string shopName)
         {
             if (_productsByShop.TryGetValue(shopName, out List<IProductEntity> products))
             {

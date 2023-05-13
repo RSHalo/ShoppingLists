@@ -19,7 +19,7 @@ namespace ShoppingList.Data.Shops
         /// Gets all products for a shop.
         /// </summary>
         /// <param name="shopName">The name of the shop.</param>
-        Task<IList<IProductEntity>> AllProductsForShop(string shopName);
+        Task<IList<IProductEntity>> AllProductsForShopAsync(string shopName);
 
         /// <summary>
         /// Adds a product to a shop.

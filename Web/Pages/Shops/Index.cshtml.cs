@@ -32,7 +32,7 @@ namespace ShoppingList.Web.Pages.Shops
 
         public async Task<IActionResult> OnGetAllProductsAsync(string shopName)
         {
-            IList<IProductEntity> products = await _shopRepository.AllProductsForShop(shopName);
+            IList<IProductEntity> products = await _shopRepository.AllProductsForShopAsync(shopName);
             IList<ProductModel> productModels = products.Select(ModelMapper.ToProductModel).ToList();
 
             ExistingProductsModel model = new ExistingProductsModel { ShopName = shopName, Products = productModels };

@@ -17,7 +17,7 @@ namespace ShoppingList.Core.Products
 
         public async Task<bool> RegisterProductAsync(string shopName, string newProductName, string nextProductName)
         {
-            IList<IProductEntity> existingProducts = await _shopRepository.AllProductsForShop(shopName);
+            IList<IProductEntity> existingProducts = await _shopRepository.AllProductsForShopAsync(shopName);
             IProductEntity newProduct = await CreateProductToRegisterAsync(shopName, newProductName, nextProductName, existingProducts);
             bool success = await _shopRepository.AddProductAsync(shopName, newProduct);
 
@@ -26,7 +26,7 @@ namespace ShoppingList.Core.Products
 
         public async Task<bool> RemoveProductAsync(string shopName, string productName)
         {
-            IList<IProductEntity> existingProducts = await _shopRepository.AllProductsForShop(shopName);
+            IList<IProductEntity> existingProducts = await _shopRepository.AllProductsForShopAsync(shopName);
             bool success = await RemoveProductAsync(shopName, existingProducts, productName);
             if (success)
             {

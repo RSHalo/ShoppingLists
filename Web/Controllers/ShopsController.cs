@@ -25,7 +25,7 @@ namespace ShoppingList.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ProductOptions(string shopName)
         {
-            IList<IProductEntity> products = await _shopRepository.AllProductsForShop(shopName);
+            IList<IProductEntity> products = await _shopRepository.AllProductsForShopAsync(shopName);
             IList<ProductModel> productModels = products.Select(ModelMapper.ToProductModel).ToList();
 
             ExistingProductOptionsModel model = new ExistingProductOptionsModel { Products = productModels };

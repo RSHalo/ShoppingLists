@@ -60,7 +60,7 @@ namespace ShoppingList.Data.InMemory.Lists
             ListEntity listEntity = new ListEntity(name, list.ShopName);
             List<IItemEntity> listItems = new List<IItemEntity>();
 
-            IList<IProductEntity> products = await _shopRepository.AllProductsForShop(list.ShopName);
+            IList<IProductEntity> products = await _shopRepository.AllProductsForShopAsync(list.ShopName);
             foreach (IProductEntity product in products.InShopOrder())
             {
                 IItemEntity item = list.Item(product.Name);

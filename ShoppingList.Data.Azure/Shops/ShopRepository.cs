@@ -26,7 +26,7 @@ namespace ShoppingList.Data.Azure.Shops
             return AllAsync();
         }
 
-        public async Task<IList<IProductEntity>> AllProductsForShop(string shopName)
+        public async Task<IList<IProductEntity>> AllProductsForShopAsync(string shopName)
         {
             IList<IProductEntity> products = await _productRepository.AllForShopAsync(shopName);
             return products.InShopOrder();
