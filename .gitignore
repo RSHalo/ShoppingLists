@@ -252,3 +252,4 @@ WiX.Toolset.DummyFile.txt
 GitHubVS.sln.DotSettings
 
 Web/wwwroot/lib/
+appsettings.Development.json
