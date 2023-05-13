@@ -1,13 +1,13 @@
 ﻿using Azure;
 using Azure.Data.Tables;
+using ShoppingList.Core;
 using ShoppingList.Data.Lists;
-using System.Collections.Concurrent;
 
 namespace ShoppingList.Data.Azure.Lists
 {
     internal class ItemRepository : Repository<IItemEntity, ItemEntity>, IItemRepository
     {
-        public ItemRepository() : base("ListItems")
+        public ItemRepository(IDataStoreOptions dataStoreOptions) : base("ListItems", dataStoreOptions)
         {
 
         }

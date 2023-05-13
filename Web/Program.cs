@@ -1,3 +1,4 @@
+using ShoppingList.Core;
 using ShoppingList.Web.Helper;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -8,7 +9,9 @@ if (builder.Environment.IsDevelopment())
     mvcBuilder.AddRazorRuntimeCompilation();
 }
 
-builder.Services.AddDataAccess();
+DataStoreOptions dataStoreOptions = builder.Configuration.GetSection(DataStoreOptions.SectionKey).Get<DataStoreOptions>();
+builder.Services.AddSingleton<IDataStoreOptions>(dataStoreOptions);
+builder.Services.AddDataAccess(dataStoreOptions);
 
 var app = builder.Build();
 

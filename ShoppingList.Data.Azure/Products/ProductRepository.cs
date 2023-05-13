@@ -1,10 +1,11 @@
-﻿using ShoppingList.Data.Products;
+﻿using ShoppingList.Core;
+using ShoppingList.Data.Products;
 
 namespace ShoppingList.Data.Azure.Products
 {
     internal class ProductRepository : Repository<IProductEntity, ProductEntity>, IProductRepository
     {
-        public ProductRepository() : base("Products")
+        public ProductRepository(IDataStoreOptions dataStoreOptions) : base("Products", dataStoreOptions)
         {
 
         }

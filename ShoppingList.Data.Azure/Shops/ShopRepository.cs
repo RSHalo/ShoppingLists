@@ -1,4 +1,5 @@
-﻿using ShoppingList.Core.Helper;
+﻿using ShoppingList.Core;
+using ShoppingList.Core.Helper;
 using ShoppingList.Data.Azure.Products;
 using ShoppingList.Data.Products;
 using ShoppingList.Data.Shops;
@@ -10,7 +11,7 @@ namespace ShoppingList.Data.Azure.Shops
         private const string PartitionKey = "shop";
         private readonly IProductRepository _productRepository;
 
-        public ShopRepository(IProductRepository productRepository) : base("Shops")
+        public ShopRepository(IProductRepository productRepository, IDataStoreOptions dataStoreOptions) : base("Shops", dataStoreOptions)
         {
             _productRepository = productRepository;
         }
