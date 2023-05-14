@@ -86,9 +86,16 @@ namespace ShoppingList.Data.Azure.Lists
             return _itemRepository.DeleteAllInListAsync(listName, keepUnpickedItems);
         }
 
-        public Task<bool> DeleteListAsync(string name)
+        public async Task<bool> DeleteListAsync(string name)
         {
-            return DeleteEntityAsync(PartitionKey, name);
+            bool success = await DeleteEntityAsync(PartitionKey, name);
+            if (success)
+            {
+                // Delete the list's items from the ListItems table.
+                await _itemRepository.DeleteAllInListAsync(name, keepUnpickedItems: false);
+            }
+
+            return success;
         }
 
         public Task<bool> PickItemAsync(string listName, string itemName)
