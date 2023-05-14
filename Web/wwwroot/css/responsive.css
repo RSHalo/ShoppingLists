@@ -1,18 +1,29 @@
 @media (max-width: 768px) {
+    html {
+        font-size: 18px;
+    }
+
     #shopAccordion .register-product-button {
-        font-size: 1.5rem;
         padding: 0.75rem;
     }
 
-    .accordion-button {
-        font-size: 1.5rem;
-    }
-
     .all-products .product {
-        font-size: 1.75rem;
+        font-size: 1.25rem;
     }
 
         .all-products .product button {
-            font-size: 1.75rem;
+            font-size: 1.25rem;
         }
+
+    .list-product-viewer .checkbox-container {
+        font-size: 1.25rem;
+    }
+
+    .shopping-mode-item {
+        font-size: 1.25rem;
+    }
+
+    .toggle-picked-button {
+        font-size: 1.25rem;
+    }
 }

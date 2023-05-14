@@ -30,18 +30,18 @@
                         <td>@listName</td>
                         <td>
                             <div class="d-flex justify-content-end">
-                                <div class="btn-group">
-                                    <a class="btn btn-primary" asp-page="/Lists/Index" asp-route-listName="@listName">Edit</a>
+                                <a class="btn btn-primary me-2" asp-page="/Lists/Index" asp-route-listName="@listName">
+                                    <i class="fa-solid fa-edit"></i> Edit
+                                </a>
 
-                                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@dialogueModel.Id">
-                                        <i class="fa-solid fa-trash"></i> Delete
-                                    </button>
-                                </div>
+                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@dialogueModel.Id">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
                             </div>
                         </td>
                     </tr>
 
-                    <partial name="_DeleteListConfirmModal" model=@dialogueModel/>
+                    <partial name="_DeleteListConfirmModal" model=@dialogueModel />
                 }
             </tbody>
         </table>

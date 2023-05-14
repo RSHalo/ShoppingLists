@@ -4,7 +4,7 @@
     string formId = $"toggleForm{item.Name}";
     string isChecked = item.IsOn ? "true" : "false";
 
-    <div class="checkbox-container" data-is-checked="@isChecked" data-form="@formId" data-upper-name="@item.Name.ToUpperInvariant()">
+    <div class="checkbox-container p-3 ps-2" data-is-checked="@isChecked" data-form="@formId" data-upper-name="@item.Name.ToUpperInvariant()">
         <span class="checkbox-icons">
             <i class="fa-regular fa-square item-off"></i>
             <i class="fa-solid fa-square-check item-on"></i>

@@ -6,7 +6,7 @@
 
 @foreach (ProductModel product in Model.Products)
 {
-    <div class="product d-flex justify-content-between p-3 ps-4" data-product-name="@product.Name">
+    <div class="product d-flex justify-content-between align-items-center p-3 ps-4" data-product-name="@product.Name">
         @product.Name
 
         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@dialogueModel.Id">
