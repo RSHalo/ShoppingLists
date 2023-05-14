@@ -6,20 +6,29 @@
 <partial name="_ResultAlert" />
 
 <h2>@Model.List.Name</h2>
-<div class="d-flex justify-content-end">
-    <button class="btn btn-danger me-1" data-bs-toggle="modal" data-bs-target="#clearListModal">
-        <i class="fa-solid fa-eraser"></i> Clear List
-    </button>
-    <a class="btn btn-primary me-1" asp-page="ShoppingMode" asp-route-listName="@Model.List.Name">
-        <i class="fa-solid fa-building"></i> Shopping Mode
-    </a>
-    <button class="btn btn-secondary content-loader"
-            data-bs-toggle="modal"
-            data-bs-target="#@RegisterProductModel.DefaultModalId"
-            data-load-url="@Url.Action(nameof(ShopsController.ProductOptions), ShopsController.ControllerName, new { shopName = Model.List.ShopName })"
-            data-load-target="#@RegisterProductModel.DefaultModalId .product-options">
-        <i class="fa-solid fa-plus"></i> Register Product With Shop
-    </button>
+<div class="list-management-buttons">
+    <div class="list-management-button-group me-1">
+        <button class="btn btn-danger me-1" data-bs-toggle="modal" data-bs-target="#clearListModal">
+            <i class="fa-solid fa-eraser"></i> <br /> Clear List
+        </button>
+        <a class="btn btn-primary list-preview-button me-1">
+            <div class="show-preview"><i class="fa-solid fa-eye"></i> <br />Preview List</div>
+            <div class="hide-preview"><i class="fa-solid fa-eye-slash"></i> <br />Hide Preview</div>
+        </a>
+        <a class="btn btn-primary" asp-page="ShoppingMode" asp-route-listName="@Model.List.Name">
+            <i class="fa-solid fa-building"></i><br /> Shopping Mode
+        </a>
+    </div>
+
+    <div class="list-management-button-group">
+        <button class="btn btn-secondary content-loader"
+                data-bs-toggle="modal"
+                data-bs-target="#@RegisterProductModel.DefaultModalId"
+                data-load-url="@Url.Action(nameof(ShopsController.ProductOptions), ShopsController.ControllerName, new { shopName = Model.List.ShopName })"
+                data-load-target="#@RegisterProductModel.DefaultModalId .product-options">
+            <i class="fa-solid fa-plus"></i> Register Product With Shop
+        </button>
+    </div>
 </div>
 
 @* Clear list modal *@
@@ -31,9 +40,18 @@
 @if (Model.List.Items.Any())
 {
     <div class="list-index-container">
-        <div class="mt-1 rounded p-2 list-product-viewer">
+
+        <div class="list-preview d-none rounded p-3 mt-2 mb-3">
+            <p class="fw-bold">List preview. This shows the items that are currently on the list.</p>
+            <p>Items:</p>
+            <div class="reloadable" data-reload-url="/Lists/Index?listName=@Model.List.Name&handler=Items">
+                <partial name="_Items" />
+            </div>
+        </div>
+
+        <div class="rounded mt-2 p-2 list-product-viewer">
             <div class="input-group mb-3">
-                <input id="productSearchInput" class="form-control" type="text" placeholder="Search products..."/>
+                <input id="productSearchInput" class="form-control" type="text" placeholder="Search products..." />
                 <button class="btn btn-secondary" type="button" id="clearProductSearchButton">Clear</button>
             </div>
 
@@ -43,11 +61,5 @@
             </div>
         </div>
 
-        <div class="rounded p-3 mt-3 list-item-viewer">
-            <p class="fw-bold">Items:</p>
-            <div class="reloadable" data-reload-url="/Lists/Index?listName=@Model.List.Name&handler=Items">
-                <partial name="_Items" />
-            </div>
-        </div>
     </div>
 }
