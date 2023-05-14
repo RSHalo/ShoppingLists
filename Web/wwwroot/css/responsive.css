@@ -15,6 +15,18 @@
             font-size: 1.25rem;
         }
 
+    .list-management-buttons {
+        flex-direction: column;
+    }
+
+        .list-management-buttons .list-management-button-group {
+            width: 100%;
+        }
+
+            .list-management-buttons .list-management-button-group:not(:first-child) {
+                margin-top: 5px;
+            }
+
     .list-product-viewer .checkbox-container {
         font-size: 1.25rem;
     }

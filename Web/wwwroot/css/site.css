@@ -29,6 +29,19 @@ header nav {
     background-color: #e7f1ff;
 }
 
+.list-management-buttons {
+    display: flex;
+    justify-content: end;
+}
+
+    .list-management-buttons .list-management-button-group {
+        display: flex;
+    }
+
+    .list-management-buttons .list-management-button-group .btn {
+        flex-grow: 1;
+    }
+
 .list-product-viewer {
     border: 2px solid grey;
 }
