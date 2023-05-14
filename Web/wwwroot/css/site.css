@@ -57,6 +57,7 @@ header nav {
 
     .list-product-viewer .checkbox-icons {
         color: var(--bs-primary);
+        margin-right: 0.5rem;
     }
 
     .list-item-viewer {
