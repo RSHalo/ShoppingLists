@@ -2,7 +2,8 @@
     let listProductViewer;
     let clearSearchButton;
     let searchInput;
-    let listItemViewer;
+    let listPreviewButton;
+    let listPreviewContainer;
 
     initialize();
 
@@ -10,15 +11,24 @@
         const container = document.querySelector(".list-index-container");
         if (container != null) {
             listProductViewer = document.querySelector(".list-product-viewer");
-            searchInput = listProductViewer.querySelector("#productSearchInput");
             clearSearchButton = listProductViewer.querySelector("#clearProductSearchButton");
-            listItemViewer = document.querySelector(".list-item-viewer");
+            searchInput = listProductViewer.querySelector("#productSearchInput");
+            listPreviewButton = document.querySelector(".list-preview-button");
+            listPreviewContainer = document.querySelector(".list-preview");
 
+            initializePreview();
             initializeSearch();
             initializeCheckboxes();
             initializeProductAddedHandler();
         }
     };
+
+    function initializePreview() {
+        listPreviewButton.addEventListener("click", () => {
+            listPreviewButton.classList.toggle("previewing")
+            listPreviewContainer.classList.toggle("d-none");
+        });
+    }
 
     function initializeSearch() {
         searchInput.addEventListener("input", () => {
@@ -69,7 +79,7 @@
             method: "POST",
             body: data
         })
-            .then(() => Reloader.reload(listItemViewer));
+            .then(() => Reloader.reload(listPreviewContainer));
     }
 
     // When a product is added via a modal, reload the product list.

@@ -38,9 +38,21 @@ header nav {
         display: flex;
     }
 
-    .list-management-buttons .list-management-button-group .btn {
-        flex-grow: 1;
-    }
+        .list-management-buttons .list-management-button-group .btn {
+            flex-grow: 1;
+        }
+
+.list-preview-button .hide-preview {
+    display: none;
+}
+
+.list-preview-button.previewing .show-preview {
+    display: none;
+}
+
+.list-preview-button.previewing .hide-preview {
+    display: block;
+}
 
 .list-product-viewer {
     border: 2px solid grey;
@@ -73,9 +85,9 @@ header nav {
         margin-right: 0.5rem;
     }
 
-    .list-item-viewer {
-        background-color: lightsteelblue;
-    }
+.list-preview {
+    background-color: lightsteelblue;
+}
 
 .shopping-mode-items .item:nth-child(odd) {
     background-color: #ccc;
